@@ -1,0 +1,188 @@
+package views
+
+import (
+	"fmt"
+
+	"github.com/leeclza/portofolio-leon/internal/data"
+)
+
+templ Home() {
+	@Layout("Portofolio Leon") {
+		@Intro()
+		@Projects(false)
+		@Tools()
+		@Footer()
+	}
+}
+
+templ Intro() {
+	<section aria-label="hero">
+		<div class="mx-auto max-w-7xl px-8 py-16 lg:py-24">
+			<div class="flex flex-col lg:flex-row items-center gap-12 mt-40">
+				<!-- LEFT - TEXT -->
+				<div class="w-full lg:w-2/3">
+					<p class="font-inter text-2xl font-semibold text-[#000000] mb-4 ml-8">Hai saya</p>
+					<h1 class="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#0D233F] mb-4">
+						Christopher Leon Saputra
+					</h1>
+					<h2 class="font-playfair text-base md:text-lg font-medium text-[#000000] mb-12 ml-9">
+						Mahasiswa Program Studi Teknik Informatika
+					</h2>
+					<p class="font-inter max-w-prose text-sm md:text-base text-[#000000] ml-8">Saat ini saya berkuliah di Institut Teknologi Sumatera. Saya memiliki minat besar dalam bidang front-end dan sedang aktif memperdalam keterampilan NextJS.</p>
+				</div>
+				<!-- RIGHT - IMAGE CARD -->
+				<div class="w-full lg:w-1/3 flex justify-end">
+					<div class="relative w-75 h-50 md:w-90 md:h-60 lg:w-105 lg:h-75">
+						<!-- shadowed card with colored background -->
+						<div class="absolute inset-0 rounded-sm shadow-[0_20px_30px_rgba(0,0,0,0.25)]">
+							<div class="relative w-full h-full rounded-sm overflow-hidden" style="background: linear-gradient(45deg, #0D233F 43%, #194072 85%)">
+								<img src="/image/pp.png" alt="Profile" class="absolute inset-0 w-full h-full object-cover"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+templ Projects(expanded bool) {
+	<section id="projects" aria-label="projects" class="w-full py-16 mt-40">
+		<div class="mx-auto max-w-7xl px-6">
+			<!-- Title -->
+			<h2 class="text-center mb-12 text-5xl leading-tight font-semibold text-black">
+				My Projects
+			</h2>
+			<!-- Grid of cards -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center">
+				for _, p := range visibleProjects(expanded) {
+					<article
+						class="w-full max-w-90 border-2 border-[#7E7979] rounded-[30px] overflow-hidden bg-white"
+						aria-labelledby={ fmt.Sprintf("project-title-%d", p.ID) }
+					>
+						<!-- IMAGE -->
+						<div class="relative w-full h-55">
+							<img src={ p.Image } alt={ p.Title } class="absolute inset-0 w-full h-full object-cover rounded-t-[30px]"/>
+						</div>
+						<!-- TEXT -->
+						<div class="p-6 flex flex-col flex-1">
+							<h3 id={ fmt.Sprintf("project-title-%d", p.ID) } class="text-lg font-semibold mb-3 text-black">
+								{ p.Title }
+							</h3>
+							<p class="text-sm leading-relaxed text-black">
+								{ p.Description }
+							</p>
+							<!-- LINK DI PALING BAWAH -->
+							<div class="mt-auto pt-3 text-sm text-black">
+								Link:
+								<a
+									href={ templ.SafeURL(p.Link) }
+									target="_blank"
+									rel="noopener noreferrer"
+									class="ml-1 text-blue-600 hover:text-blue-800 hover:underline break-all"
+								>
+									{ p.Link }
+								</a>
+							</div>
+						</div>
+					</article>
+				}
+			</div>
+			<!-- Button area -->
+			<div class="mt-12 flex flex-col items-center gap-4">
+				<button
+					hx-get={ fmt.Sprintf("/projects?expanded=%t", !expanded) }
+					hx-target="#projects"
+					hx-swap="outerHTML"
+					aria-expanded={ fmt.Sprint(expanded) }
+					class={ "px-6 py-2 border-2 rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0D233F]",
+						templ.KV("bg-[#0D233F] border-[#0D233F] text-white", expanded),
+						templ.KV("bg-transparent border-[#0D233F] text-black hover:bg-[#0D233F] hover:text-white", !expanded) }
+				>
+					if expanded {
+						Show Less
+					} else {
+						Show More
+					}
+				</button>
+			</div>
+		</div>
+	</section>
+}
+
+func visibleProjects(expanded bool) []data.Project {
+	if expanded {
+		return data.Projects
+	}
+	return data.Projects[:2]
+}
+
+templ Tools() {
+	<section id="tools-skills" class="py-20 px-5 mt-10" style="font-family: Georgia, serif">
+		<h2 class="text-center mb-12 text-5xl leading-tight font-semibold text-black">
+			Tools
+		</h2>
+		<div class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-10 max-w-250 mx-auto">
+			for _, t := range data.Tools {
+				<article class="bg-white p-6 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.1)] flex flex-col items-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(0,0,0,0.15)]">
+					<div class="mb-5 relative">
+						<img src={ t.Img } alt={ t.Alt } width="60" height="60" loading="lazy" class="object-cover"/>
+					</div>
+					<h3 class="text-[22px] mb-3 font-semibold text-black text-center">
+						{ t.Title }
+					</h3>
+					<p class="text-base text-[#333333] leading-6 text-center">
+						{ t.Desc }
+					</p>
+				</article>
+			}
+		</div>
+	</section>
+}
+
+templ Footer() {
+	<footer class="w-full mt-40">
+		<!-- TOP GRADIENT SECTION -->
+		<div class="w-full min-h-[80vh] flex items-end" style="background: linear-gradient(180deg, rgba(235,233,231,0.9) 0%, rgba(9,24,43,0.99) 100%)">
+			<div class="mx-auto max-w-7xl px-6 pb-24 w-full">
+				<div class="grid grid-cols-1 md:grid-cols-2 items-center gap-12">
+					<!-- LEFT - IMAGE -->
+					<div class="flex justify-start">
+						<div class="relative overflow-hidden" style="width: 640px; height: 425px; border-radius: 6px">
+							<img src="/image/contact.png" alt="Handshake" class="absolute inset-0 w-full h-full object-cover"/>
+						</div>
+					</div>
+					<!-- RIGHT - Contact Text + Icons -->
+					<div class="flex flex-col items-center md:items-center justify-center text-center">
+						<h3 class="text-3xl md:text-4xl font-semibold mb-8 text-center md:text-left md:mr-48 md:mb-12" style="color: #FFFFFF">
+							Contact Us
+						</h3>
+						<div class="flex items-center gap-6 mb-3">
+							@socialIcon("https://www.linkedin.com/in/christopher-leon-saputra-114402323/", "Linkedin", "/image/linkedin.png", "linkedin")
+							@socialIcon("https://www.instagram.com/c.leonsra", "Instagram", "/image/ig.png", "instagram")
+							@socialIcon("https://github.com/leeclza", "Github", "/image/github.png", "github")
+						</div>
+						<!-- Home text (scroll to top, smooth via CSS) -->
+						<a href="#" class="text-xs tracking-wide mt-1" style="color: #808080">
+							Home
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="w-full bg-[#09182B]" style="height: 10px"></div>
+	</footer>
+}
+
+templ socialIcon(href, label, img, alt string) {
+	<a
+		href={ templ.SafeURL(href) }
+		target="_blank"
+		rel="noopener noreferrer"
+		aria-label={ label }
+		class="flex items-center justify-center rounded-full shadow-sm bg-white"
+		style="width: 45px; height: 45px; padding: 6px"
+	>
+		<img src={ img } alt={ alt } width="22" height="22"/>
+	</a>
+}
