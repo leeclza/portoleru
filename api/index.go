@@ -5,7 +5,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/leeclza/portofolio-leon/internal/app"
+	"github.com/leeclza/portofolio-leon/pkg/app"
 )
 
 var router = app.Router()

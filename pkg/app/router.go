@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/a-h/templ"
-	"github.com/leeclza/portofolio-leon/internal/data"
-	"github.com/leeclza/portofolio-leon/internal/views"
+	"github.com/leeclza/portofolio-leon/pkg/data"
+	"github.com/leeclza/portofolio-leon/pkg/views"
 )
 
 func Router() http.Handler {

@@ -39,7 +39,7 @@ Menyediakan halaman web yang menampilkan profil, karya, dan pengalaman Leon seca
 | NF-02 | **Performa**: halaman dirender di server (SSR) dan hanya memuat JS kecil (HTMX), sehingga cepat dibuka. |
 | NF-03 | **Ketersediaan**: di-host di Vercel dan dapat diakses 24/7. |
 | NF-04 | **Aksesibilitas**: gambar memiliki teks alternatif, tombol memiliki label, dan animasi dinonaktifkan jika pengguna memilih *reduced motion*. |
-| NF-05 | **Pemeliharaan**: konten dipisah di `internal/data` sehingga mudah diperbarui tanpa mengubah tampilan. |
+| NF-05 | **Pemeliharaan**: konten dipisah di `pkg/data` sehingga mudah diperbarui tanpa mengubah tampilan. |
 
 ### Batasan
 - Belum ada panel admin, sehingga konten diperbarui langsung lewat kode.
@@ -50,9 +50,9 @@ Menyediakan halaman web yang menampilkan profil, karya, dan pengalaman Leon seca
 ```
 api/index.go          entry point Vercel Function
 cmd/dev/main.go       server lokal (port 3000)
-internal/app/         routing
-internal/data/        data project, tools, pengalaman
-internal/views/       komponen .templ (+ hasil generate *_templ.go)
+pkg/app/              routing
+pkg/data/             data project, tools, pengalaman
+pkg/views/            komponen .templ (+ hasil generate *_templ.go)
 styles/input.css      sumber Tailwind + animasi
 public/               file statis (gambar, favicon, styles.css hasil build)
 ```

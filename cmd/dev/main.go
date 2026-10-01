@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/leeclza/portofolio-leon/internal/app"
+	"github.com/leeclza/portofolio-leon/pkg/app"
 )
 
 func main() {
