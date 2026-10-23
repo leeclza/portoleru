@@ -1,5 +1,11 @@
 package data
 
+import (
+	"sort"
+	"strings"
+	"time"
+)
+
 type Project struct {
 	ID          int
 	Title       string
@@ -89,8 +95,20 @@ func Repeat(items []Tech, min int) []Tech {
 	return out
 }
 
+// TabAll is the pseudo-tab that lists every entry from every category.
+const TabAll = "all"
+
 // TabCount is the number of entries in a tab.
-func TabCount(tab string) int { return len(DataByTab[tab]) }
+func TabCount(tab string) int {
+	if tab != TabAll {
+		return len(DataByTab[tab])
+	}
+	n := 0
+	for _, items := range DataByTab {
+		n += len(items)
+	}
+	return n
+}
 
 // Ongoing marks a date range that is still running, e.g. "Aug 2026 – Present".
 const Ongoing = "Present"
@@ -102,6 +120,7 @@ type RundownItem struct {
 	Role  string
 	Event string
 	Desc  string
+	Tab   string // category key, filled in by Items
 }
 
 type Tab struct {
@@ -114,6 +133,7 @@ var Tabs = []Tab{
 	{Key: "magang", Label: "Internships & Work"},
 	{Key: "organisasi", Label: "Organizations"},
 	{Key: "prestasi", Label: "Achievements & Training"},
+	{Key: TabAll, Label: "All"},
 }
 
 var DataByTab = map[string][]RundownItem{
@@ -142,31 +162,58 @@ var DataByTab = map[string][]RundownItem{
 	"organisasi": {
 		{ID: 1, Date: "Jun 2025 – Present", IsIT: false, Role: "Member – IT Division", Event: "Badan Pengurus Angkatan (BPA) Algovista – IF 24", Desc: "Member of the Algovista IF 24 class board's IT Division, supporting the class's technology needs such as the class website."},
 		{ID: 5, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Intern Staff", Event: "Kementerian Teknologi Informasi KM ITERA (Kabinet Resonara)", Desc: "Interned at the KM ITERA Ministry of Information Technology (Resonara Cabinet), supporting the ministry's IT needs and writing the guide book for the KM website migration to Statamic."},
-		{ID: 2, Date: "Jan 2026 – Present", IsIT: false, Role: "Junior Member – Technopreneur Division", Event: "Himpunan Mahasiswa Informatika (HMIF) ITERA", Desc: "Organizing the Technopreneur Division within the Professional Development Department."},
-		{ID: 3, Date: "Jan 2026 – Present", IsIT: false, Role: "Member – Technology Implementation Division", Event: "Keluarga Mahasiswa Katholik (KMK) St. Thomas Aquinas ITERA", Desc: "Organizing the Technology Implementation Division within the Visual Communication Media Department."},
+		{ID: 2, Date: "Jan 2026 – Present", IsIT: true, Role: "Junior Member – Technopreneur Division", Event: "Himpunan Mahasiswa Informatika (HMIF) ITERA", Desc: "Organizing the Technopreneur Division within the Professional Development Department."},
+		{ID: 3, Date: "Jan 2026 – Present", IsIT: true, Role: "Member – Technology Implementation Division", Event: "Keluarga Mahasiswa Katholik (KMK) St. Thomas Aquinas ITERA", Desc: "Organizing the Technology Implementation Division within the Visual Communication Media Department."},
 		{ID: 6, Date: "Jun 2026 – Present", IsIT: false, Role: "Expert Staff – Ministry of Information Technology", Event: "Kementerian Koordinator Kominfo KM ITERA (Kabinet Garwasakha)", Desc: "Expert staff of the Ministry of Information Technology under the Coordinating Ministry of Communication and Informatics (Garwasakha Cabinet). I manage the km-itera.com website and work on the KM web migration program."},
 		{ID: 4, Date: "Oct 2026 – Present", IsIT: false, Role: "Adminfot – Website Division", Event: "Humas Informatika ITERA (Batch 3)", Desc: "Adminfot in the Website Division of Humas Informatika ITERA batch 3, helping manage and update the website's information content."},
 	},
 	"prestasi": {
 		{ID: 1, Date: "Aug 2024", IsIT: false, Role: "Participant", Event: "Pelatihan LKMM Pra-TD I ITERA", Desc: "Took part in pre-basic student leadership and management training to develop leadership skills."},
-		{ID: 2, Date: "Nov 2024", IsIT: false, Role: "Participant", Event: "Mini Bootcamp 1.0 HMIF ITERA", Desc: "Joined HMIF ITERA's mini bootcamp, building, releasing, and showcasing a simple website as the final project."},
+		{ID: 2, Date: "Nov 2024", IsIT: true, Role: "Participant", Event: "Mini Bootcamp 1.0 HMIF ITERA", Desc: "Joined HMIF ITERA's mini bootcamp, building, releasing, and showcasing a simple website as the final project."},
 		{ID: 3, Date: "Aug 2025", IsIT: false, Role: "Volunteer", Event: "HMIF Mengabdi Vol. 3", Desc: "Volunteered in a community service program organized by HMIF ITERA."},
 		{ID: 4, Date: "May 2026", IsIT: false, Role: "Participant", Event: "Pelatihan LKMM TD VIII ITERA", Desc: "Took part in basic student leadership and management training to develop leadership skills."},
 	},
 }
 
-// Items returns the tab's items, oldest at the bottom (newest first),
-// optionally filtered to IT-related ones.
+// Items returns the tab's items newest first, optionally filtered to
+// IT-related ones. TabAll merges every category, ordered by start date.
 func Items(tab string, itOnly bool) []RundownItem {
+	if tab != TabAll {
+		return tabItems(tab, itOnly)
+	}
+	var out []RundownItem
+	for _, t := range Tabs {
+		if t.Key != TabAll {
+			out = append(out, tabItems(t.Key, itOnly)...)
+		}
+	}
+	// stable: entries starting the same month keep their in-tab order
+	sort.SliceStable(out, func(i, j int) bool {
+		return startOf(out[i].Date).After(startOf(out[j].Date))
+	})
+	return out
+}
+
+// tabItems lists one category newest first (each slice is written oldest first).
+func tabItems(tab string, itOnly bool) []RundownItem {
 	src := DataByTab[tab]
 	out := make([]RundownItem, 0, len(src))
 	for i := len(src) - 1; i >= 0; i-- {
 		if itOnly && !src[i].IsIT {
 			continue
 		}
-		out = append(out, src[i])
+		it := src[i]
+		it.Tab = tab
+		out = append(out, it)
 	}
 	return out
+}
+
+// startOf parses the start of a date like "Aug 2026 – Present" or "Jul 2025".
+func startOf(date string) time.Time {
+	start, _, _ := strings.Cut(date, " – ")
+	t, _ := time.Parse("Jan 2006", start)
+	return t
 }
 
 func FindItem(tab string, id int) (RundownItem, bool) {
@@ -180,5 +227,5 @@ func FindItem(tab string, id int) (RundownItem, bool) {
 
 func ValidTab(tab string) bool {
 	_, ok := DataByTab[tab]
-	return ok
+	return ok || tab == TabAll
 }

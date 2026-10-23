@@ -57,8 +57,8 @@ templ PengalamanBody(tab string, itOnly bool) {
 				}
 			</div>
 		</div>
-		<!-- IT FILTER — only on kepanitiaan -->
-		if tab == "kepanitiaan" {
+		<!-- IT FILTER — committees and All only -->
+		if tab == "kepanitiaan" || tab == data.TabAll {
 			<button
 				{ swapAttrs(tab, !itOnly)... }
 				aria-pressed={ fmt.Sprint(itOnly) }
@@ -81,7 +81,7 @@ templ PengalamanBody(tab string, itOnly bool) {
 			<li class="anim-item" style={ templ.SafeCSS(fmt.Sprintf("animation-delay: %dms", i*60)) }>
 				<button
 					type="button"
-					hx-get={ fmt.Sprintf("/pengalaman/item?tab=%s&id=%d", tab, ev.ID) }
+					hx-get={ fmt.Sprintf("/pengalaman/item?tab=%s&id=%d", ev.Tab, ev.ID) }
 					hx-target="#modal"
 					class="row-hover group grid w-full grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 border-b border-line py-6 text-left md:grid-cols-[12rem_1fr_auto] md:px-4 md:py-7"
 				>

@@ -282,7 +282,8 @@ templ Experience() {
 					</h2>
 					<p class="reveal mt-6 max-w-sm text-muted" style={ delay(2) }>Committees, internships, organizations, and training during my studies at ITERA.</p>
 					<div class="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
-						for i, t := range data.Tabs {
+						<!-- the last tab is "All"; the boxes show the real categories -->
+						for i, t := range data.Tabs[:len(data.Tabs)-1] {
 							<a href={ templ.SafeURL("/pengalaman?tab=" + t.Key) } class="reveal group bg-bg p-5 transition-colors duration-300 hover:bg-bg-2 md:p-6" style={ delay(i) }>
 								<span class="block font-display text-4xl font-medium tracking-tight transition-colors group-hover:text-blue md:text-5xl">{ fmt.Sprintf("%02d", data.TabCount(t.Key)) }</span>
 								<span class="mt-2 block text-sm text-muted">{ t.Label }</span>

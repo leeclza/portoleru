@@ -48,8 +48,8 @@ func pengalamanQuery(r *http.Request) (string, bool) {
 	if !data.ValidTab(tab) {
 		tab = "kepanitiaan"
 	}
-	// IT filter only exists on the kepanitiaan tab
-	it := tab == "kepanitiaan" && r.URL.Query().Get("it") == "1"
+	// IT filter exists on the committees tab and on All
+	it := (tab == "kepanitiaan" || tab == data.TabAll) && r.URL.Query().Get("it") == "1"
 	return tab, it
 }
 

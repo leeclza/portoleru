@@ -245,11 +245,11 @@ func PengalamanBody(tab string, itOnly bool) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div></div><!-- IT FILTER — only on kepanitiaan -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div></div><!-- IT FILTER — committees and All only -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if tab == "kepanitiaan" {
+		if tab == "kepanitiaan" || tab == data.TabAll {
 			var templ_7745c5c3_Var15 = []any{"anim-fade inline-flex w-max items-center gap-2.5 rounded-full border px-4 py-2 text-sm transition-colors duration-300",
 				templ.KV("border-blue bg-blue/10 text-fg", itOnly),
 				templ.KV("border-line-strong text-muted hover:border-blue hover:text-fg", !itOnly)}
@@ -352,9 +352,9 @@ func PengalamanBody(tab string, itOnly bool) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var21 string
-			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/pengalaman/item?tab=%s&id=%d", tab, ev.ID))
+			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/pengalaman/item?tab=%s&id=%d", ev.Tab, ev.ID))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 84, Col: 70}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 84, Col: 73}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var21)
 			if templ_7745c5c3_Err != nil {
