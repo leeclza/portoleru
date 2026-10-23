@@ -2,112 +2,268 @@ package views
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/leeclza/portofolio-leon/pkg/data"
 )
 
 templ Home() {
-	@Layout("Portofolio Leon") {
-		@Intro()
+	@Layout("Christopher Leon Saputra — Portfolio") {
+		@Hero()
+		@About()
+		@Skills()
 		@Projects(false)
-		@Tools()
-		@Footer()
+		@Experience()
+		@Contact()
 	}
 }
 
-templ Intro() {
-	<section aria-label="hero">
-		<div class="mx-auto max-w-7xl px-8 py-16 lg:py-24">
-			<div class="flex flex-col lg:flex-row items-center gap-12 mt-40">
-				<!-- LEFT - TEXT -->
-				<div class="w-full lg:w-2/3">
-					<p class="font-inter text-2xl font-semibold text-[#000000] mb-4 ml-8">Hai saya</p>
-					<h1 class="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#0D233F] mb-4">
-						Christopher Leon Saputra
-					</h1>
-					<h2 class="font-playfair text-base md:text-lg font-medium text-[#000000] mb-12 ml-9">
-						Mahasiswa Program Studi Teknik Informatika
-					</h2>
-					<p class="font-inter max-w-prose text-sm md:text-base text-[#000000] ml-8">Saat ini saya berkuliah di Institut Teknologi Sumatera. Saya memiliki minat besar dalam bidang front-end dan sedang aktif memperdalam keterampilan NextJS.</p>
-				</div>
-				<!-- RIGHT - IMAGE CARD -->
-				<div class="w-full lg:w-1/3 flex justify-end">
-					<div class="relative w-75 h-50 md:w-90 md:h-60 lg:w-105 lg:h-75">
-						<!-- shadowed card with colored background -->
-						<div class="absolute inset-0 rounded-sm shadow-[0_20px_30px_rgba(0,0,0,0.25)]">
-							<div class="relative w-full h-full rounded-sm overflow-hidden" style="background: linear-gradient(45deg, #0D233F 43%, #194072 85%)">
-								<img src="/image/pp.png" alt="Profile" class="absolute inset-0 w-full h-full object-cover"/>
-							</div>
-						</div>
+// sectionLabel is the "01 — About" marker that opens each section.
+templ sectionLabel(n, name string) {
+	<div class="reveal mb-10 flex items-center gap-4 md:mb-16">
+		<span class="label text-blue">{ n }</span>
+		<span class="h-px w-10 bg-line-strong"></span>
+		<span class="label">{ name }</span>
+	</div>
+}
+
+func delay(i int) templ.SafeCSS {
+	return templ.SafeCSS(fmt.Sprintf("--i:%d", i))
+}
+
+templ Hero() {
+	<section id="home" class="relative isolate flex min-h-[min(100svh,64rem)] flex-col overflow-hidden pt-24 md:pt-28">
+		<!-- BACKGROUND -->
+		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+			<div class="grid-bg scan absolute inset-0 overflow-hidden"></div>
+			<div class="parallax absolute inset-0" data-depth="-28">
+				<div class="orb -right-[10%] top-[8%] size-[min(48rem,90vw)] bg-blue/25"></div>
+			</div>
+			<div class="parallax absolute inset-0" data-depth="18">
+				<div class="orb bottom-[-18%] left-[-12%] size-[min(36rem,80vw)] bg-violet/20 [animation-delay:-9s]"></div>
+			</div>
+			<div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg to-transparent"></div>
+		</div>
+		<div class="wrap flex flex-1 flex-col">
+			<!-- TECH META ROW -->
+			<div class="intro flex items-center justify-between gap-6" style={ delay(0) }>
+				<p class="label flex items-center gap-2"><span class="blink text-blue">●</span> Informatics Engineering Student</p>
+				<p class="label hidden sm:block">05°21′S — 105°18′E · ITERA</p>
+			</div>
+			<!-- HEADLINE -->
+			<div class="flex flex-1 flex-col justify-center py-14 md:py-16">
+				<h1 class="font-display text-[clamp(2.2rem,7.7vw,9.5rem)] font-medium leading-[0.92] tracking-[-0.045em]">
+					<span class="line"><span style={ delay(0) }>Building digital</span></span>
+					<span class="line"><span style={ delay(1) }>experiences <em class="font-normal not-italic text-muted">with</em></span></span>
+					<span class="line"><span class="grad-text" style={ delay(2) }>code &amp; creativity.</span></span>
+				</h1>
+				<div class="draw mt-10 h-px w-full bg-gradient-to-r from-blue via-violet/50 to-transparent md:mt-14"></div>
+				<div class="mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:items-end">
+					<p class="intro max-w-xl text-base leading-relaxed text-muted md:col-span-6 md:text-lg" style={ delay(1) }>
+						Saya <span class="text-fg">Christopher Leon Saputra</span>, mahasiswa Teknik Informatika di Institut Teknologi Sumatera (ITERA) dengan minat besar di front-end dan web development.
+					</p>
+					<div class="intro flex flex-wrap gap-3 md:col-span-6 md:justify-end" style={ delay(2) }>
+						<a href="#projects" class="btn btn-primary">
+							View Projects
+							@arrow("arrow")
+						</a>
+						<a href="#contact" class="btn btn-ghost">Contact Me</a>
 					</div>
 				</div>
 			</div>
+			<!-- SCROLL CUE -->
+			<div class="intro flex items-end justify-between pb-8" style={ delay(4) }>
+				<a href="#about" class="group flex items-center gap-4" aria-label="Scroll ke About">
+					<span class="relative h-12 w-px overflow-hidden bg-line-strong"><span class="cue absolute inset-0 bg-fg"></span></span>
+					<span class="label transition-colors group-hover:text-fg">Scroll</span>
+				</a>
+				<p class="label">Portfolio — 2026</p>
+			</div>
+		</div>
+	</section>
+}
+
+templ About() {
+	<section id="about" class="relative py-24 md:py-40">
+		<div class="wrap">
+			@sectionLabel("01", "About")
+			<div class="grid gap-14 md:grid-cols-12 md:gap-10">
+				<div class="md:col-span-5">
+					<h2 class="section-head">
+						<span class="reveal-line block overflow-hidden"><span>Hai, saya</span></span>
+						<span class="reveal-line block overflow-hidden" style={ delay(1) }><span class="grad-text">Leon.</span></span>
+					</h2>
+					<figure class="reveal relative mt-12 max-w-sm" style={ delay(2) }>
+						<div class="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-blue/35 via-bg-3 to-violet/25">
+							<img src="/image/pp.png" alt="Foto Christopher Leon Saputra" loading="lazy" class="absolute inset-0 size-full object-cover"/>
+							<div class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-line"></div>
+						</div>
+						<figcaption class="label mt-4 flex justify-between"><span>Lampung, ID</span><span>ITERA · IF 24</span></figcaption>
+					</figure>
+				</div>
+				<div class="md:col-span-6 md:col-start-7 md:pt-4">
+					<p class="reveal font-display text-2xl leading-snug tracking-tight md:text-[2.1rem]">
+						Mahasiswa Teknik Informatika yang suka membangun antarmuka web — dari tampilan yang rapi sampai alur data di baliknya.
+					</p>
+					<div class="reveal mt-10 space-y-5 leading-relaxed text-muted" style={ delay(1) }>
+						<p>
+							Saat ini saya berkuliah di Institut Teknologi Sumatera. Saya memiliki minat besar dalam bidang front-end dan sedang aktif memperdalam keterampilan Next.js.
+						</p>
+						<p>
+							Sebagian besar pengalaman saya datang dari membangun website kegiatan kampus bersama tim: front-end untuk e-voting BUMI KETUPAT dan website PPLK 2025, memimpin Divisi IT IGTTPB 2025, hingga kini memegang sub-divisi back-end di PPLK ITERA 2026.
+						</p>
+					</div>
+					<dl class="mt-14 grid grid-cols-2 border-t border-line">
+						@fact(0, "Kampus", "Institut Teknologi Sumatera")
+						@fact(1, "Program Studi", "Teknik Informatika")
+						@fact(2, "Fokus", "Front-End · Web Development")
+						@fact(3, "Sekarang", "Asisten Praktikum Dasar Teknologi Digital")
+					</dl>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+templ fact(i int, k, v string) {
+	<div class={ "reveal border-b border-line py-5", templ.KV("pl-5 border-l", i%2 == 1) } style={ delay(i) }>
+		<dt class="label">{ k }</dt>
+		<dd class="mt-2 text-sm md:text-base">{ v }</dd>
+	</div>
+}
+
+templ Skills() {
+	<section id="skills" class="relative border-y border-line bg-bg-2/40 py-24 md:py-36">
+		<div class="wrap">
+			@sectionLabel("02", "Tech Stack")
+			<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+				<h2 class="section-head">
+					<span class="reveal-line block overflow-hidden"><span>Tools I</span></span>
+					<span class="reveal-line block overflow-hidden" style={ delay(1) }><span>work with.</span></span>
+				</h2>
+				<p class="reveal max-w-xs text-muted" style={ delay(2) }>Bahasa, framework, database, dan tools yang saya pakai untuk belajar dan membangun project.</p>
+			</div>
+		</div>
+		<div class="mt-16 border-t border-line md:mt-24">
+			for i, g := range data.Stack {
+				<div class="reveal grid border-b border-line md:grid-cols-[16rem_1fr]" style={ delay(i) }>
+					<div class="wrap flex items-center gap-3 pt-6 md:w-auto md:border-r md:border-line md:py-0 md:pr-6">
+						<span class="label text-blue">{ fmt.Sprintf("0%d", i+1) }</span>
+						<h3 class="label text-fg">{ g.Label }</h3>
+					</div>
+					<!-- screen readers get a plain list; the moving row is decorative -->
+					<ul class="sr-only">
+						for _, t := range g.Items {
+							<li>{ t.Name }</li>
+						}
+					</ul>
+					<div class="marquee overflow-hidden py-6" aria-hidden="true">
+						<div class="marquee-track marquee-ltr" style={ templ.SafeCSS(fmt.Sprintf("--dur:%ds", 30+i*6)) }>
+							for range 2 {
+								for _, t := range data.Repeat(g.Items, 9) {
+									<span class="mr-3 flex items-center gap-3 rounded-2xl border border-line bg-bg py-2 pl-2 pr-5 transition-colors duration-300 hover:border-blue/50">
+										<img src={ "/icons/" + t.Icon + ".svg" } alt="" width="40" height="40" loading="lazy" class="size-10 rounded-[0.6rem]"/>
+										<span class="whitespace-nowrap text-sm font-medium">{ t.Name }</span>
+									</span>
+								}
+							}
+						</div>
+					</div>
+				</div>
+			}
 		</div>
 	</section>
 }
 
 templ Projects(expanded bool) {
-	<section id="projects" aria-label="projects" class="w-full py-16 mt-40">
-		<div class="mx-auto max-w-7xl px-6">
-			<!-- Title -->
-			<h2 class="text-center mb-12 text-5xl leading-tight font-semibold text-black">
-				My Projects
-			</h2>
-			<!-- Grid of cards -->
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center">
-				for _, p := range visibleProjects(expanded) {
-					<article
-						class="w-full max-w-90 border-2 border-[#7E7979] rounded-[30px] overflow-hidden bg-white"
-						aria-labelledby={ fmt.Sprintf("project-title-%d", p.ID) }
-					>
-						<!-- IMAGE -->
-						<div class="relative w-full h-55">
-							<img src={ p.Image } alt={ p.Title } class="absolute inset-0 w-full h-full object-cover rounded-t-[30px]"/>
-						</div>
-						<!-- TEXT -->
-						<div class="p-6 flex flex-col flex-1">
-							<h3 id={ fmt.Sprintf("project-title-%d", p.ID) } class="text-lg font-semibold mb-3 text-black">
-								{ p.Title }
-							</h3>
-							<p class="text-sm leading-relaxed text-black">
-								{ p.Description }
-							</p>
-							<!-- LINK DI PALING BAWAH -->
-							<div class="mt-auto pt-3 text-sm text-black">
-								Link:
-								<a
-									href={ templ.SafeURL(p.Link) }
-									target="_blank"
-									rel="noopener noreferrer"
-									class="ml-1 text-blue-600 hover:text-blue-800 hover:underline break-all"
-								>
-									{ p.Link }
-								</a>
-							</div>
-						</div>
-					</article>
+	<section id="projects" class="relative py-24 md:py-40">
+		<div class="wrap">
+			@sectionLabel("03", "Selected Work")
+			<div class="mb-16 flex flex-col gap-6 md:mb-24 md:flex-row md:items-end md:justify-between">
+				<h2 class="section-head">
+					<span class="reveal-line block overflow-hidden"><span>Projects &amp;</span></span>
+					<span class="reveal-line block overflow-hidden" style={ delay(1) }><span class="grad-text">case studies.</span></span>
+				</h2>
+				<p class="reveal max-w-sm text-muted" style={ delay(2) }>Website yang saya bangun bersama tim kepanitiaan kampus, plus portofolio ini sendiri.</p>
+			</div>
+			<div class="grid gap-x-10 gap-y-20 md:grid-cols-2 md:gap-y-28">
+				for i, p := range visibleProjects(expanded) {
+					@projectCard(i, p)
 				}
 			</div>
-			<!-- Button area -->
-			<div class="mt-12 flex flex-col items-center gap-4">
+			<div class="mt-20 flex items-center gap-6">
+				<span class="h-px flex-1 bg-line"></span>
 				<button
 					hx-get={ fmt.Sprintf("/projects?expanded=%t", !expanded) }
 					hx-target="#projects"
 					hx-swap="outerHTML"
 					aria-expanded={ fmt.Sprint(expanded) }
-					class={ "px-6 py-2 border-2 rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0D233F]",
-						templ.KV("bg-[#0D233F] border-[#0D233F] text-white", expanded),
-						templ.KV("bg-transparent border-[#0D233F] text-black hover:bg-[#0D233F] hover:text-white", !expanded) }
+					class="btn btn-ghost"
 				>
 					if expanded {
 						Show Less
 					} else {
-						Show More
+						{ fmt.Sprintf("Show All (%d)", len(data.Projects)) }
+					}
+					if expanded {
+						@arrow("-rotate-90")
+					} else {
+						@arrow("rotate-90")
 					}
 				</button>
+				<span class="h-px flex-1 bg-line"></span>
 			</div>
 		</div>
 	</section>
+}
+
+templ projectCard(i int, p data.Project) {
+	<article
+		class={ "proj reveal group relative", templ.KV("md:mt-40", i%2 == 1) }
+		aria-labelledby={ fmt.Sprintf("project-title-%d", p.ID) }
+	>
+		<div class="proj-media relative aspect-[16/11]">
+			<img src={ p.Image } alt={ "Tampilan " + p.Title } loading="lazy" class="absolute inset-0 size-full object-cover"/>
+			<div class="proj-glow"></div>
+			<div class="absolute left-4 top-4 flex gap-2">
+				<span class="label rounded-full bg-bg/70 px-3 py-1.5 text-fg! backdrop-blur">{ fmt.Sprintf("%02d / %02d", p.ID, len(data.Projects)) }</span>
+				if i < 2 {
+					<span class="label flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue to-violet px-3 py-1.5 text-white!">
+						<span class="blink size-1.5 rounded-full bg-white"></span>
+						Recent
+					</span>
+				}
+			</div>
+		</div>
+		<div class="mt-7 flex items-start justify-between gap-6">
+			<div>
+				<p class="label">
+					{ p.Category }
+					if p.Year != "" {
+						{ " · " + p.Year }
+					}
+				</p>
+				<h3 id={ fmt.Sprintf("project-title-%d", p.ID) } class="mt-3 font-display text-2xl font-medium tracking-tight md:text-[2rem] md:leading-tight">
+					{ p.Title }
+				</h3>
+			</div>
+			if p.Link != "" {
+				<a href={ templ.SafeURL(p.Link) } target="_blank" rel="noopener noreferrer" aria-label={ "Buka " + p.Title + " (tab baru)" } class="proj-cta grid size-12 shrink-0 place-items-center rounded-full border border-line-strong">
+					@arrow("")
+				</a>
+			}
+		</div>
+		<p class="mt-4 max-w-xl leading-relaxed text-muted">{ p.Description }</p>
+		<div class="mt-6 flex flex-wrap items-center gap-2">
+			<span class="chip border-blue/40 text-blue">{ p.Role }</span>
+			for _, s := range p.Stack {
+				<span class="chip">{ s }</span>
+			}
+			if p.Link != "" {
+				<a href={ templ.SafeURL(p.Link) } target="_blank" rel="noopener noreferrer" class="u-link ml-auto text-sm text-muted transition-colors hover:text-fg">{ strings.TrimSuffix(strings.TrimPrefix(p.Link, "https://www."), "/") }</a>
+			}
+		</div>
+	</article>
 }
 
 func visibleProjects(expanded bool) []data.Project {
@@ -117,72 +273,101 @@ func visibleProjects(expanded bool) []data.Project {
 	return data.Projects[:2]
 }
 
-templ Tools() {
-	<section id="tools-skills" class="py-20 px-5 mt-10" style="font-family: Georgia, serif">
-		<h2 class="text-center mb-12 text-5xl leading-tight font-semibold text-black">
-			Tools
-		</h2>
-		<div class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-10 max-w-250 mx-auto">
-			for _, t := range data.Tools {
-				<article class="bg-white p-6 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.1)] flex flex-col items-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(0,0,0,0.15)]">
-					<div class="mb-5 relative">
-						<img src={ t.Img } alt={ t.Alt } width="60" height="60" loading="lazy" class="object-cover"/>
+templ Experience() {
+	<section id="experience" class="relative border-t border-line py-24 md:py-40">
+		<div class="wrap">
+			@sectionLabel("04", "Experience")
+			<div class="grid gap-16 md:grid-cols-12">
+				<div class="md:col-span-5">
+					<h2 class="section-head">
+						<span class="reveal-line block overflow-hidden"><span>Journey so</span></span>
+						<span class="reveal-line block overflow-hidden" style={ delay(1) }><span>far.</span></span>
+					</h2>
+					<p class="reveal mt-6 max-w-sm text-muted" style={ delay(2) }>Kepanitiaan, magang, organisasi, dan pelatihan selama kuliah di ITERA.</p>
+					<div class="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
+						for i, t := range data.Tabs {
+							<a href={ templ.SafeURL("/pengalaman?tab=" + t.Key) } class="reveal group bg-bg p-5 transition-colors duration-300 hover:bg-bg-2 md:p-6" style={ delay(i) }>
+								<span class="block font-display text-4xl font-medium tracking-tight transition-colors group-hover:text-blue md:text-5xl">{ fmt.Sprintf("%02d", data.TabCount(t.Key)) }</span>
+								<span class="mt-2 block text-sm text-muted">{ t.Label }</span>
+							</a>
+						}
 					</div>
-					<h3 class="text-[22px] mb-3 font-semibold text-black text-center">
-						{ t.Title }
-					</h3>
-					<p class="text-base text-[#333333] leading-6 text-center">
-						{ t.Desc }
-					</p>
-				</article>
-			}
+				</div>
+				<div class="md:col-span-7">
+					<p class="reveal label mb-6">Highlight — kepanitiaan bidang IT</p>
+					<ol class="relative border-l border-line">
+						for i, ev := range data.Items("kepanitiaan", true) {
+							<li class="reveal relative" style={ delay(i) }>
+								<span class={ "absolute -left-[5px] top-8 size-[9px] rounded-full border border-blue bg-bg", templ.KV("bg-blue shadow-[0_0_0_4px_rgb(108_140_255/0.18)]", i == 0) } aria-hidden="true"></span>
+								<a href={ templ.SafeURL("/pengalaman?tab=kepanitiaan&it=1") } class="row-hover grid gap-1 py-6 pl-8 md:grid-cols-[1fr_auto] md:items-center md:gap-6 md:pr-4">
+									<div>
+										<p class="label">{ ev.Date }</p>
+										<h3 class="mt-2 font-display text-xl font-medium tracking-tight md:text-2xl">{ ev.Role }</h3>
+										<p class="mt-1 text-muted">{ ev.Event }</p>
+									</div>
+									<span class="row-icon hidden text-muted md:block">
+										@arrow("")
+									</span>
+								</a>
+							</li>
+						}
+					</ol>
+					<a href="/pengalaman" class="btn btn-ghost reveal mt-10">
+						Lihat semua pengalaman
+						@arrow("arrow")
+					</a>
+				</div>
+			</div>
 		</div>
 	</section>
 }
 
-templ Footer() {
-	<footer class="w-full mt-40">
-		<!-- TOP GRADIENT SECTION -->
-		<div class="w-full min-h-[80vh] flex items-end" style="background: linear-gradient(180deg, rgba(235,233,231,0.9) 0%, rgba(9,24,43,0.99) 100%)">
-			<div class="mx-auto max-w-7xl px-6 pb-24 w-full">
-				<div class="grid grid-cols-1 md:grid-cols-2 items-center gap-12">
-					<!-- LEFT - IMAGE -->
-					<div class="flex justify-start">
-						<div class="relative overflow-hidden" style="width: 640px; height: 425px; border-radius: 6px">
-							<img src="/image/contact.png" alt="Handshake" class="absolute inset-0 w-full h-full object-cover"/>
-						</div>
-					</div>
-					<!-- RIGHT - Contact Text + Icons -->
-					<div class="flex flex-col items-center md:items-center justify-center text-center">
-						<h3 class="text-3xl md:text-4xl font-semibold mb-8 text-center md:text-left md:mr-48 md:mb-12" style="color: #FFFFFF">
-							Contact Us
-						</h3>
-						<div class="flex items-center gap-6 mb-3">
-							@socialIcon("https://www.linkedin.com/in/christopher-leon-saputra-114402323/", "Linkedin", "/image/linkedin.png", "linkedin")
-							@socialIcon("https://www.instagram.com/c.leonsra", "Instagram", "/image/ig.png", "instagram")
-							@socialIcon("https://github.com/leeclza", "Github", "/image/github.png", "github")
-						</div>
-						<!-- Home text (scroll to top, smooth via CSS) -->
-						<a href="#" class="text-xs tracking-wide mt-1" style="color: #808080">
-							Home
-						</a>
-					</div>
+templ Contact() {
+	<section id="contact" class="relative isolate overflow-hidden border-t border-line py-28 md:py-44">
+		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+			<div class="orb left-1/2 top-1/2 size-[min(50rem,110vw)] -translate-x-1/2 -translate-y-1/2 bg-blue/15"></div>
+			<div class="grid-bg absolute inset-0 opacity-60"></div>
+		</div>
+		<div class="wrap">
+			@sectionLabel("05", "Contact")
+			<h2 class="font-display text-[clamp(2.4rem,7.2vw,8.5rem)] font-medium leading-[0.92] tracking-[-0.045em]">
+				<span class="reveal-line block overflow-hidden"><span>Let's build</span></span>
+				<span class="reveal-line block overflow-hidden" style={ delay(1) }><span>something</span></span>
+				<span class="reveal-line block overflow-hidden" style={ delay(2) }><span class="grad-text">meaningful.</span></span>
+			</h2>
+			<div class="mt-16 grid gap-12 md:mt-24 md:grid-cols-12">
+				<div class="reveal md:col-span-5">
+					<p class="max-w-sm leading-relaxed text-muted">Terbuka untuk kolaborasi project, kepanitiaan IT, atau sekadar ngobrol soal web development. Cara tercepat menghubungi saya lewat LinkedIn.</p>
+					<a href={ templ.SafeURL(socials[0].Href) } target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-8">
+						Hubungi via LinkedIn
+						@arrow("arrow")
+					</a>
 				</div>
+				<ul class="border-t border-line md:col-span-6 md:col-start-7">
+					for i, s := range socials {
+						<li class="reveal" style={ delay(i) }>
+							<a href={ templ.SafeURL(s.Href) } target="_blank" rel="noopener noreferrer" class="row-hover flex items-center gap-5 border-b border-line px-1 py-6 md:px-4">
+								<img src={ "/icons/" + s.Icon + ".svg" } alt="" width="40" height="40" loading="lazy" class="size-10 rounded-[0.6rem]"/>
+								<span class="font-display text-2xl font-medium tracking-tight md:text-3xl">{ s.Label }</span>
+								<span class="ml-auto hidden text-sm text-muted sm:block">{ handle(s.Href) }</span>
+								<span class="row-icon text-muted">
+									@arrow("")
+								</span>
+							</a>
+						</li>
+					}
+				</ul>
 			</div>
 		</div>
-		<div class="w-full bg-[#09182B]" style="height: 10px"></div>
-	</footer>
+	</section>
 }
 
-templ socialIcon(href, label, img, alt string) {
-	<a
-		href={ templ.SafeURL(href) }
-		target="_blank"
-		rel="noopener noreferrer"
-		aria-label={ label }
-		class="flex items-center justify-center rounded-full shadow-sm bg-white"
-		style="width: 45px; height: 45px; padding: 6px"
-	>
-		<img src={ img } alt={ alt } width="22" height="22"/>
-	</a>
+// handle shows the last path segment of a profile URL, e.g. "@leeclza".
+func handle(href string) string {
+	parts := strings.Split(strings.TrimSuffix(href, "/"), "/")
+	h := parts[len(parts)-1]
+	if strings.Contains(href, "linkedin") {
+		return "in/christopher-leon-saputra"
+	}
+	return "@" + h
 }

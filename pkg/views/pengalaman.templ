@@ -2,7 +2,6 @@ package views
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/leeclza/portofolio-leon/pkg/data"
 )
@@ -11,14 +10,25 @@ import (
 const typeMs = 18
 
 templ PengalamanPage(tab string, itOnly bool) {
-	@Layout("Pengalaman - Portofolio Leon") {
-		<section id="pengalaman" class="py-16 px-6">
-			<!-- TITLE -->
-			<h2 class="anim-fade-down text-center mt-10 mb-8 text-5xl leading-tight font-semibold text-black">
-				Pengalaman
-			</h2>
-			<div id="pengalaman-body" class="anim-fade-down-sm">
-				@PengalamanBody(tab, itOnly)
+	@Layout("Pengalaman — Christopher Leon Saputra") {
+		<section id="pengalaman" class="relative isolate overflow-hidden pb-28 pt-32 md:pb-40 md:pt-44">
+			<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+				<div class="grid-bg absolute inset-x-0 top-0 h-[36rem]"></div>
+				<div class="orb -right-[15%] -top-[20%] size-[min(40rem,90vw)] bg-violet/15"></div>
+			</div>
+			<div class="wrap">
+				<div class="intro mb-8 flex items-center gap-4" style={ delay(0) }>
+					<a href="/#experience" class="label u-link transition-colors hover:text-fg">← Home</a>
+					<span class="h-px w-10 bg-line-strong"></span>
+					<span class="label text-blue">Experience</span>
+				</div>
+				<h1 class="font-display text-[clamp(3rem,8vw,8rem)] font-medium leading-[0.92] tracking-[-0.045em]">
+					<span class="line"><span style={ delay(0) }>Pengalaman</span></span>
+				</h1>
+				<p class="intro mt-6 max-w-lg text-muted" style={ delay(1) }>Diurutkan dari yang terbaru. Pilih item untuk melihat peran dan detail kegiatannya.</p>
+				<div id="pengalaman-body" class="intro mt-14 md:mt-20" style={ delay(2) }>
+					@PengalamanBody(tab, itOnly)
+				</div>
 			</div>
 			<!-- MODAL slot, filled by htmx -->
 			<div id="modal"></div>
@@ -29,80 +39,69 @@ templ PengalamanPage(tab string, itOnly bool) {
 // PengalamanBody is the part re-rendered when switching tab or IT filter.
 templ PengalamanBody(tab string, itOnly bool) {
 	<!-- TABS -->
-	<div class="flex flex-col items-center gap-2 mb-2">
-		<div class="flex items-center gap-3 flex-wrap justify-center">
-			<span class="text-sm text-[#5F6F82] whitespace-nowrap">Pilih Kategori:</span>
-			<div class="flex flex-wrap gap-2 bg-gray-100 rounded-xl p-1.5 border border-gray-200">
+	<div class="flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-center md:justify-between">
+		<div class="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0" role="tablist" aria-label="Kategori pengalaman">
+			<div class="flex w-max gap-1 rounded-full border border-line bg-bg-2 p-1">
 				for _, t := range data.Tabs {
 					<button
 						{ swapAttrs(t.Key, false)... }
-						class={ "px-4 py-1.5 rounded-lg text-sm transition-all duration-200",
-							templ.KV("bg-white text-[#0B2545] font-semibold border border-gray-200 shadow-sm", tab == t.Key),
-							templ.KV("text-[#5F6F82] hover:bg-white hover:text-[#0B2545]", tab != t.Key) }
+						role="tab"
+						aria-selected={ fmt.Sprint(tab == t.Key) }
+						class={ "whitespace-nowrap rounded-full px-4 py-2 text-sm transition-colors duration-300",
+							templ.KV("bg-fg font-medium text-bg", tab == t.Key),
+							templ.KV("text-muted hover:text-fg", tab != t.Key) }
 					>
 						{ t.Label }
+						<span class={ "ml-1 font-mono text-[0.7rem]", templ.KV("text-bg/60", tab == t.Key), templ.KV("text-muted/60", tab != t.Key) }>{ fmt.Sprint(data.TabCount(t.Key)) }</span>
 					</button>
 				}
 			</div>
 		</div>
-		<!-- IT FILTER — centered below tabs -->
+		<!-- IT FILTER — only on kepanitiaan -->
 		if tab == "kepanitiaan" {
-			<div class="anim-expand flex justify-center mt-1 mb-4">
-				<button
-					{ swapAttrs(tab, !itOnly)... }
-					class={ "px-5 py-1.5 rounded-full text-xs border transition-all duration-200",
-						templ.KV("bg-[#0B2545] text-white border-[#0B2545]", itOnly),
-						templ.KV("bg-transparent text-[#5F6F82] border-[#5F6F82] hover:border-[#0B2545] hover:text-[#0B2545]", !itOnly) }
-				>
-					IT
-				</button>
-			</div>
+			<button
+				{ swapAttrs(tab, !itOnly)... }
+				aria-pressed={ fmt.Sprint(itOnly) }
+				class={ "anim-fade inline-flex w-max items-center gap-2.5 rounded-full border px-4 py-2 text-sm transition-colors duration-300",
+					templ.KV("border-blue bg-blue/10 text-fg", itOnly),
+					templ.KV("border-line-strong text-muted hover:border-blue hover:text-fg", !itOnly) }
+			>
+				<span class={ "size-2 rounded-full border border-blue transition-colors", templ.KV("bg-blue", itOnly) }></span>
+				Hanya bidang IT
+			</button>
 		}
 	</div>
 	<!-- TIMELINE -->
-	<div class="relative flex flex-col items-center w-full max-w-3xl mx-auto">
-		<!-- GARIS TENGAH -->
-		<div class="hidden md:block absolute top-0 bottom-0 left-1/2 w-0.5 bg-[#081C33] -translate-x-1/2"></div>
-		<div class="anim-fade w-full">
-			{{ items := data.Items(tab, itOnly) }}
-			if len(items) == 0 {
-				<p class="text-center text-[#5F6F82] py-10 text-sm">
-					Tidak ada pengalaman dalam kategori ini.
-				</p>
-			}
-			for i, ev := range items {
-				<div
-					class={ "relative w-full flex my-6",
-						templ.KV("anim-slide-left justify-start pr-6 md:pr-12", i%2 == 0),
-						templ.KV("anim-slide-right justify-end pl-6 md:pl-12", i%2 != 0) }
-					style={ templ.SafeCSS(fmt.Sprintf("animation-delay: %dms", i*80)) }
+	{{ items := data.Items(tab, itOnly) }}
+	<ol class="anim-fade relative mt-4">
+		if len(items) == 0 {
+			<li class="py-16 text-center text-sm text-muted">Tidak ada pengalaman dalam kategori ini.</li>
+		}
+		for i, ev := range items {
+			<li class="anim-item" style={ templ.SafeCSS(fmt.Sprintf("animation-delay: %dms", i*60)) }>
+				<button
+					type="button"
+					hx-get={ fmt.Sprintf("/pengalaman/item?tab=%s&id=%d", tab, ev.ID) }
+					hx-target="#modal"
+					class="row-hover group grid w-full grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 border-b border-line py-6 text-left md:grid-cols-[12rem_1fr_auto] md:px-4 md:py-7"
 				>
-					<!-- TITIK -->
-					<div class="hidden md:block absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-white border-2 border-[#0B2545] rounded-full z-10 top-1/2 -translate-y-1/2"></div>
-					<!-- CARD -->
-					<div
-						hx-get={ fmt.Sprintf("/pengalaman/item?tab=%s&id=%d", tab, ev.ID) }
-						hx-target="#modal"
-						class={ "card-pop bg-white border-2 border-[#081C33] rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer select-none w-64 text-sm md:w-80 md:text-base",
-							templ.KV("flex-row-reverse text-right", i%2 != 0),
-							templ.KV("text-left", i%2 == 0) }
-					>
-						<!-- ICON -->
-						<div class="anim-spin-pop bg-[#F2F6FA] w-10 h-10 min-w-10 min-h-10 rounded-full border border-[#0B2545] flex items-center justify-center text-[#0B2545] font-semibold shrink-0 text-sm">
-							{ strconv.Itoa(ev.ID) }
-						</div>
-						<!-- TEXT -->
-						<div>
-							<h3 class="font-semibold text-[#0B2545] text-sm leading-snug">
-								{ ev.About }
-							</h3>
-							<p class="text-[#5F6F82] text-xs mt-1">{ ev.Date }</p>
-						</div>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
+					<span class="label col-span-2 md:col-span-1">{ ev.Date }</span>
+					<span>
+						<span class="flex items-center gap-3">
+							<span class="block font-display text-xl font-medium tracking-tight md:text-2xl">{ ev.Role }</span>
+							if ev.IsIT {
+								<span class="chip h-6 border-blue/40 px-2 text-[0.65rem] text-blue">IT</span>
+							}
+						</span>
+						<span class="mt-1 block text-muted">{ ev.Event }</span>
+					</span>
+					<span class="row-icon grid size-10 place-items-center rounded-full border border-line-strong text-muted">
+						@arrow("")
+					</span>
+				</button>
+			</li>
+		}
+	</ol>
 }
 
 func swapAttrs(tab string, itOnly bool) templ.Attributes {
@@ -118,39 +117,38 @@ func swapAttrs(tab string, itOnly bool) templ.Attributes {
 }
 
 templ Modal(item data.RundownItem) {
-	<div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center px-4">
+	<div class="modal-backdrop fixed inset-0 z-[60] flex items-end justify-center p-4 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 		<!-- click outside the card closes it -->
 		<div
-			class="absolute inset-0 bg-black/45"
+			class="absolute inset-0 bg-bg/70 backdrop-blur-sm"
 			hx-get="/pengalaman/close"
 			hx-target="#modal"
 			hx-swap="innerHTML swap:200ms"
 		></div>
-		<div class="modal-card bg-white rounded-2xl border border-gray-200 p-6 max-w-md w-full relative">
+		<div class="modal-card relative w-full max-w-lg overflow-hidden rounded-3xl border border-line-strong bg-bg-2 p-7 shadow-2xl shadow-black/50 md:p-9">
+			<div class="pointer-events-none absolute -right-20 -top-20 size-56 rounded-full bg-blue/20 blur-3xl" aria-hidden="true"></div>
 			<button
 				hx-get="/pengalaman/close"
 				hx-target="#modal"
 				hx-swap="innerHTML swap:200ms"
-				class="absolute top-4 right-4 text-[#5F6F82] hover:text-[#0B2545] text-xl leading-none transition-colors"
+				class="absolute right-5 top-5 grid size-10 place-items-center rounded-full border border-line-strong text-muted transition-colors hover:border-fg hover:text-fg"
 				aria-label="Tutup"
+				autofocus
 			>
 				✕
 			</button>
-			<p class="font-semibold text-[#0B2545] text-base pr-6 leading-snug">
+			<p class="label text-blue">{ item.Date }</p>
+			<p id="modal-title" class="mt-4 pr-12 font-display text-2xl font-medium leading-tight tracking-tight md:text-3xl">
 				{ item.Role }
 			</p>
-			<p class="text-sm text-[#5F6F82] mt-1">{ item.Event }</p>
-			<p class="text-xs text-gray-400 mt-1 mb-3">{ item.Date }</p>
-			<div class="border-t border-gray-100 pt-3 min-h-[60px]">
+			<p class="mt-2 text-muted">{ item.Event }</p>
+			<div class="mt-6 min-h-[72px] border-t border-line pt-6">
 				<!-- typing effect: each character fades in one after another -->
-				<p class="text-sm text-gray-700 leading-relaxed" aria-label={ item.Desc }>
-					{{ chars := []rune(item.Desc) }}
-					for i, c := range chars {
-						<span class="type-ch" aria-hidden="true" style={ templ.SafeCSS(fmt.Sprintf("animation-delay: %dms", i*typeMs)) }>{ string(c) }</span>
-					}
+				<p class="leading-relaxed text-fg/85" aria-label={ item.Desc }>
+					@typedText(item.Desc)
 					<span
-						class="type-cursor inline-block w-0.5 h-3.5 bg-[#0B2545] ml-0.5 align-middle"
-						style={ templ.SafeCSS(fmt.Sprintf("--type-end: %dms", len(chars)*typeMs)) }
+						class="type-cursor ml-0.5 inline-block h-4 w-0.5 bg-blue align-middle"
+						style={ templ.SafeCSS(fmt.Sprintf("--type-end: %dms", len([]rune(item.Desc))*typeMs)) }
 					></span>
 				</p>
 			</div>
