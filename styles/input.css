@@ -269,6 +269,11 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .proj:hover .proj-glow { opacity: 1; }
 }
+/* show all / less: collapsed by default once JS runs; no-JS shows every card */
+.js #project-list:not(.is-open) .proj-extra { display: none; }
+html:not(.js) .proj-toggle-row { display: none; }
+#project-toggle[aria-expanded="true"] .toggle-arrow { rotate: -90deg; }
+
 .proj-cta { transition: transform 0.6s var(--ease-out), background-color 0.3s, color 0.3s; }
 .proj:hover .proj-cta { transform: rotate(-45deg); background: var(--fg); color: var(--bg); }
 

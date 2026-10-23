@@ -12,7 +12,7 @@ templ Home() {
 		@Hero()
 		@About()
 		@Skills()
-		@Projects(false)
+		@Projects()
 		@Experience()
 		@Contact()
 	}
@@ -60,7 +60,7 @@ templ Hero() {
 				<div class="draw mt-10 h-px w-full bg-gradient-to-r from-blue via-violet/50 to-transparent md:mt-14"></div>
 				<div class="mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:items-end">
 					<p class="intro max-w-xl text-base leading-relaxed text-muted md:col-span-6 md:text-lg" style={ delay(1) }>
-						Saya <span class="text-fg">Christopher Leon Saputra</span>, mahasiswa Teknik Informatika di Institut Teknologi Sumatera (ITERA) dengan minat besar di front-end dan web development.
+						Saya <span class="text-fg">Christopher Leon Saputra</span>, mahasiswa aktif semester 5 Teknik Informatika di Institut Teknologi Sumatera (ITERA) dengan fokus di full stack web development.
 					</p>
 					<div class="intro flex flex-wrap gap-3 md:col-span-6 md:justify-end" style={ delay(2) }>
 						<a href="#projects" class="btn btn-primary">
@@ -107,7 +107,7 @@ templ About() {
 					</p>
 					<div class="reveal mt-10 space-y-5 leading-relaxed text-muted" style={ delay(1) }>
 						<p>
-							Saat ini saya berkuliah di Institut Teknologi Sumatera. Saya memiliki minat besar dalam bidang front-end dan sedang aktif memperdalam keterampilan Next.js.
+							Saat ini saya mahasiswa aktif semester 5 di Institut Teknologi Sumatera. Fokus saya ada di full stack web development, dan saat ini sedang aktif memperdalam Go.
 						</p>
 						<p>
 							Sebagian besar pengalaman saya datang dari membangun website kegiatan kampus bersama tim: front-end untuk e-voting BUMI KETUPAT dan website PPLK 2025, memimpin Divisi IT IGTTPB 2025, hingga kini memegang sub-divisi back-end di PPLK ITERA 2026.
@@ -115,8 +115,8 @@ templ About() {
 					</div>
 					<dl class="mt-14 grid grid-cols-2 border-t border-line">
 						@fact(0, "Kampus", "Institut Teknologi Sumatera")
-						@fact(1, "Program Studi", "Teknik Informatika")
-						@fact(2, "Fokus", "Front-End · Web Development")
+						@fact(1, "Program Studi", "Teknik Informatika · Semester 5")
+						@fact(2, "Fokus", "Full Stack Web Development")
 						@fact(3, "Sekarang", "Asisten Praktikum Dasar Teknologi Digital")
 					</dl>
 				</div>
@@ -175,7 +175,10 @@ templ Skills() {
 	</section>
 }
 
-templ Projects(expanded bool) {
+// visibleCount is how many projects show before "Show All".
+const visibleCount = 2
+
+templ Projects() {
 	<section id="projects" class="relative py-24 md:py-40">
 		<div class="wrap">
 			@sectionLabel("03", "Selected Work")
@@ -186,30 +189,24 @@ templ Projects(expanded bool) {
 				</h2>
 				<p class="reveal max-w-sm text-muted" style={ delay(2) }>Website yang saya bangun bersama tim kepanitiaan kampus, plus portofolio ini sendiri.</p>
 			</div>
-			<div class="grid gap-x-10 gap-y-20 md:grid-cols-2 md:gap-y-28">
-				for i, p := range visibleProjects(expanded) {
+			<!-- extra cards are collapsed by main.js; without JS everything shows -->
+			<div id="project-list" class="grid gap-x-10 gap-y-20 md:grid-cols-2 md:gap-y-28">
+				for i, p := range data.Projects {
 					@projectCard(i, p)
 				}
 			</div>
-			<div class="mt-20 flex items-center gap-6">
+			<div class="proj-toggle-row mt-20 flex items-center gap-6">
 				<span class="h-px flex-1 bg-line"></span>
 				<button
-					hx-get={ fmt.Sprintf("/projects?expanded=%t", !expanded) }
-					hx-target="#projects"
-					hx-swap="outerHTML"
-					aria-expanded={ fmt.Sprint(expanded) }
+					id="project-toggle"
+					type="button"
+					aria-controls="project-list"
+					aria-expanded="false"
 					class="btn btn-ghost"
 				>
-					if expanded {
-						Show Less
-					} else {
-						{ fmt.Sprintf("Show All (%d)", len(data.Projects)) }
-					}
-					if expanded {
-						@arrow("-rotate-90")
-					} else {
-						@arrow("rotate-90")
-					}
+					<span data-more>{ fmt.Sprintf("Show All (%d)", len(data.Projects)) }</span>
+					<span data-less hidden>Show Less</span>
+					@arrow("toggle-arrow rotate-90 transition-transform duration-500")
 				</button>
 				<span class="h-px flex-1 bg-line"></span>
 			</div>
@@ -219,7 +216,7 @@ templ Projects(expanded bool) {
 
 templ projectCard(i int, p data.Project) {
 	<article
-		class={ "proj reveal group relative", templ.KV("md:mt-40", i%2 == 1) }
+		class={ "proj reveal group relative", templ.KV("md:mt-40", i%2 == 1), templ.KV("proj-extra", i >= visibleCount) }
 		aria-labelledby={ fmt.Sprintf("project-title-%d", p.ID) }
 	>
 		<div class="proj-media relative aspect-[16/11]">
@@ -266,12 +263,6 @@ templ projectCard(i int, p data.Project) {
 	</article>
 }
 
-func visibleProjects(expanded bool) []data.Project {
-	if expanded {
-		return data.Projects
-	}
-	return data.Projects[:2]
-}
 
 templ Experience() {
 	<section id="experience" class="relative border-t border-line py-24 md:py-40">
@@ -298,7 +289,7 @@ templ Experience() {
 					<ol class="relative border-l border-line">
 						for i, ev := range data.Items("kepanitiaan", true) {
 							<li class="reveal relative" style={ delay(i) }>
-								<span class={ "absolute -left-[5px] top-8 size-[9px] rounded-full border border-blue bg-bg", templ.KV("bg-blue shadow-[0_0_0_4px_rgb(108_140_255/0.18)]", i == 0) } aria-hidden="true"></span>
+								<span class={ "absolute -left-[5px] top-8 size-[9px] rounded-full border border-blue", templ.KV("bg-blue shadow-[0_0_0_4px_rgb(108_140_255/0.18)]", ongoing(ev.Date)), templ.KV("bg-bg", !ongoing(ev.Date)) } aria-hidden="true"></span>
 								<a href={ templ.SafeURL("/pengalaman?tab=kepanitiaan&it=1") } class="row-hover grid gap-1 py-6 pl-8 md:grid-cols-[1fr_auto] md:items-center md:gap-6 md:pr-4">
 									<div>
 										<p class="label">{ ev.Date }</p>
@@ -370,4 +361,9 @@ func handle(href string) string {
 		return "in/christopher-leon-saputra"
 	}
 	return "@" + h
+}
+
+// ongoing reports whether an experience date range is still running.
+func ongoing(date string) bool {
+	return strings.HasSuffix(date, "Sekarang")
 }

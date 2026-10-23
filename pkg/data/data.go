@@ -130,7 +130,7 @@ var DataByTab = map[string][]RundownItem{
 		{ID: 12, Date: "Aug 2026 – Sekarang", About: "PPLK ITERA, Kepala Sub-Divisi Back-End Divisi IMTEK", IsIT: true, Role: "Kepala Sub-Divisi Back-End Divisi IMTEK", Event: "PPLK ITERA 2026", Desc: "Bertanggung jawab dalam mengatur aliran data, mengelola database, serta memastikan interaksi server dan klien berjalan lancar pada website dan game PPLK 2026."},
 		{ID: 13, Date: "Aug 2026 – Sekarang", About: "Kemahasiswaan Expo 2026, Kepala Divisi Implementasi Teknologi", IsIT: true, Role: "Kepala Divisi Implementasi Teknologi", Event: "Kemahasiswaan Expo 2026", Desc: "Memimpin Divisi Implementasi Teknologi dalam kepanitiaan Kemahasiswaan Expo 2026."},
 		{ID: 14, Date: "Oct 2026 – Sekarang", About: "Neofest 2026, Staff Back-End", IsIT: true, Role: "Staff Back-End", Event: "Neofest 2026", Desc: "Menjadi staff back-end dalam pengembangan website kegiatan Neofest 2026."},
-		{ID: 15, Date: "Oct 2026 – Sekarang", About: "Pemilihan Raya KM ITERA 2026, Kepala Divisi", IsIT: false, Role: "Kepala Divisi", Event: "Pemilihan Raya KM ITERA 2026", Desc: "Menjadi kepala divisi dalam kepanitiaan Pemilihan Raya KM ITERA 2026."},
+		{ID: 15, Date: "Oct 2026 – Sekarang", About: "Pemilihan Raya KM ITERA 2026, Kepala Divisi Implementasi Teknologi", IsIT: true, Role: "Kepala Divisi Implementasi Teknologi", Event: "Pemilihan Raya KM ITERA 2026", Desc: "Memimpin Divisi Implementasi Teknologi dalam kepanitiaan Pemilihan Raya KM ITERA 2026."},
 	},
 	"magang": {
 		{ID: 1, Date: "Sep 2025 – Dec 2025", About: "Asisten Praktikum, Dasar Teknologi Digital (TPB 21)", IsIT: false, Role: "Asisten Praktikum – TPB 21", Event: "Dasar Teknologi Digital, ITERA", Desc: "Menjadi asisten praktikum mata kuliah dasar teknologi digital untuk TPB 21."},

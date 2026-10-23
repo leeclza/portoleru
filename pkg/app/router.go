@@ -16,10 +16,6 @@ func Router() http.Handler {
 		render(w, r, views.Home())
 	})
 
-	mux.HandleFunc("GET /projects", func(w http.ResponseWriter, r *http.Request) {
-		render(w, r, views.Projects(r.URL.Query().Get("expanded") == "true"))
-	})
-
 	mux.HandleFunc("GET /pengalaman", func(w http.ResponseWriter, r *http.Request) {
 		tab, it := pengalamanQuery(r)
 		render(w, r, views.PengalamanPage(tab, it))

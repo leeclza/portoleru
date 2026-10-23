@@ -93,6 +93,26 @@
     }, { passive: true });
   }
 
+  // ---- projects: show all / show less without moving the viewport ----
+  const list = document.getElementById("project-list");
+  const more = document.getElementById("project-toggle");
+  if (list && more) {
+    more.addEventListener("click", () => {
+      const open = !list.classList.contains("is-open");
+      const before = more.getBoundingClientRect().top;
+      list.classList.toggle("is-open", open);
+      more.setAttribute("aria-expanded", String(open));
+      more.querySelector("[data-more]").hidden = open;
+      more.querySelector("[data-less]").hidden = !open;
+      // collapsing pulls the button up; scroll by the same amount so it stays
+      // under the cursor instead of the page jumping to another section
+      if (!open) {
+        const delta = more.getBoundingClientRect().top - before;
+        if (delta) scrollBy({ top: delta, behavior: "instant" });
+      }
+    });
+  }
+
   observe(document);
   // content swapped in by htmx (projects "show more", pengalaman tabs)
   document.addEventListener("htmx:afterSettle", () => observe(document));
