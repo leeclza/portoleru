@@ -135,13 +135,13 @@ var DataByTab = map[string][]RundownItem{
 	},
 	"magang": {
 		{ID: 1, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Lab Assistant – TPB 21", Event: "Dasar Teknologi Digital, ITERA", Desc: "Assisted TPB class 21 during Digital Technology Fundamentals labs: explaining material, guiding lab assignments, and helping with grading."},
-		{ID: 2, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Intern", Event: "Kementerian Teknologi Informasi KM ITERA (Kabinet Resonara)", Desc: "Interned at the KM ITERA Ministry of Information Technology (Resonara Cabinet), supporting the ministry's IT needs while learning how a student organization works."},
 		{ID: 3, Date: "Feb 2026 – Jun 2026", IsIT: false, Role: "Lab Assistant – T 11", Event: "Pengenalan Komputasi, ITERA", Desc: "Assisted TPB class T 11 during Introduction to Computing labs: explaining material, guiding lab assignments, and helping with grading."},
 		{ID: 5, Date: "Jun 2026 – Jul 2026", IsIT: false, Role: "Supervisor Intern", Event: "Chandramart", Desc: "Interned as a supervisor at Chandramart (retail supermarket), helping monitor store operations and coordinate with staff."},
 		{ID: 4, Date: "Sep 2026 – Present", IsIT: false, Role: "Lab Assistant – TPB 43", Event: "Dasar Teknologi Digital, ITERA", Desc: "Back as a Digital Technology Fundamentals lab assistant for TPB class 43: explaining material, guiding lab assignments, and helping with grading."},
 	},
 	"organisasi": {
 		{ID: 1, Date: "Jun 2025 – Present", IsIT: false, Role: "Member – IT Division", Event: "Badan Pengurus Angkatan (BPA) Algovista – IF 24", Desc: "Member of the Algovista IF 24 class board's IT Division, supporting the class's technology needs such as the class website."},
+		{ID: 5, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Intern", Event: "Kementerian Teknologi Informasi KM ITERA (Kabinet Resonara)", Desc: "Interned at the KM ITERA Ministry of Information Technology (Resonara Cabinet), supporting the ministry's IT needs while learning how a student organization works."},
 		{ID: 2, Date: "Jan 2026 – Present", IsIT: false, Role: "Junior Member – Technopreneur Division", Event: "Himpunan Mahasiswa Informatika (HMIF) ITERA", Desc: "Organizing the Technopreneur Division within the Professional Development Department."},
 		{ID: 3, Date: "Jan 2026 – Present", IsIT: false, Role: "Member – Technology Implementation Division", Event: "Keluarga Mahasiswa Katholik (KMK) St. Thomas Aquinas ITERA", Desc: "Organizing the Technology Implementation Division within the Visual Communication Media Department."},
 		{ID: 4, Date: "Oct 2026 – Present", IsIT: false, Role: "Adminfot – Website Division", Event: "Humas Informatika ITERA (Batch 3)", Desc: "Adminfot in the Website Division of Humas Informatika ITERA batch 3, helping manage and update the website's information content."},
