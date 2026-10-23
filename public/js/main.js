@@ -113,6 +113,69 @@
     });
   }
 
+  // ---- tech stack: auto-scroll that can be swiped (touch) or dragged (LMB) ----
+  // The track holds the items twice, so wrapping by half its width is seamless.
+  document.querySelectorAll(".marquee").forEach((row, i) => {
+    let pos = 0;
+    let held = false; // finger down or mouse dragging
+    let hovered = false;
+    let resumeAt = 0;
+    const speed = 0.035 - i * 0.004; // px per ms; rows drift at different paces
+    const half = () => row.scrollWidth / 2;
+    const wrap = (x) => {
+      const h = half();
+      return h > 0 ? ((x % h) + h) % h : x;
+    };
+    const release = () => { held = false; resumeAt = performance.now() + 1500; };
+
+    // touch: native scrolling, we only pause the autoplay around it
+    row.addEventListener("touchstart", () => { held = true; }, { passive: true });
+    row.addEventListener("touchend", release, { passive: true });
+    row.addEventListener("touchcancel", release, { passive: true });
+
+    // mouse: hold the left button and drag left/right
+    let startX = 0;
+    let startPos = 0;
+    row.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      held = true;
+      startX = e.clientX;
+      startPos = row.scrollLeft;
+      try { row.setPointerCapture(e.pointerId); } catch {} // keep dragging outside the row
+      row.classList.add("is-dragging");
+    });
+    row.addEventListener("pointermove", (e) => {
+      if (!held || e.pointerType !== "mouse") return;
+      pos = wrap(startPos - (e.clientX - startX));
+      row.scrollLeft = pos;
+    });
+    const endDrag = (e) => {
+      if (e.pointerType !== "mouse" || !row.classList.contains("is-dragging")) return;
+      row.classList.remove("is-dragging");
+      release();
+    };
+    row.addEventListener("pointerup", endDrag);
+    row.addEventListener("pointercancel", endDrag);
+    row.addEventListener("mouseenter", () => { hovered = true; });
+    row.addEventListener("mouseleave", () => { hovered = false; });
+
+    if (reduce) return; // still draggable/swipeable, just no autoplay
+
+    let last = performance.now();
+    const tick = (now) => {
+      const dt = now - last;
+      last = now;
+      if (held || hovered || now < resumeAt) {
+        pos = row.scrollLeft; // follow the user's swipe / drag / momentum
+      } else {
+        pos = wrap(pos + speed * dt);
+        row.scrollLeft = pos;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+
   // links from home open a preselected tab via ?tab=…; keep the address bar
   // at plain /pengalaman so tabs don't pile up as separate visited pages
   if (location.pathname === "/pengalaman" && location.search) {

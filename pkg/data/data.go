@@ -141,9 +141,10 @@ var DataByTab = map[string][]RundownItem{
 	},
 	"organisasi": {
 		{ID: 1, Date: "Jun 2025 – Present", IsIT: false, Role: "Member – IT Division", Event: "Badan Pengurus Angkatan (BPA) Algovista – IF 24", Desc: "Member of the Algovista IF 24 class board's IT Division, supporting the class's technology needs such as the class website."},
-		{ID: 5, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Intern", Event: "Kementerian Teknologi Informasi KM ITERA (Kabinet Resonara)", Desc: "Interned at the KM ITERA Ministry of Information Technology (Resonara Cabinet), supporting the ministry's IT needs while learning how a student organization works."},
+		{ID: 5, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Intern Staff", Event: "Kementerian Teknologi Informasi KM ITERA (Kabinet Resonara)", Desc: "Interned at the KM ITERA Ministry of Information Technology (Resonara Cabinet), supporting the ministry's IT needs and writing the guide book for the KM website migration to Statamic."},
 		{ID: 2, Date: "Jan 2026 – Present", IsIT: false, Role: "Junior Member – Technopreneur Division", Event: "Himpunan Mahasiswa Informatika (HMIF) ITERA", Desc: "Organizing the Technopreneur Division within the Professional Development Department."},
 		{ID: 3, Date: "Jan 2026 – Present", IsIT: false, Role: "Member – Technology Implementation Division", Event: "Keluarga Mahasiswa Katholik (KMK) St. Thomas Aquinas ITERA", Desc: "Organizing the Technology Implementation Division within the Visual Communication Media Department."},
+		{ID: 6, Date: "Jun 2026 – Present", IsIT: false, Role: "Expert Staff – Ministry of Information Technology", Event: "Kementerian Koordinator Kominfo KM ITERA (Kabinet Garwasakha)", Desc: "Expert staff of the Ministry of Information Technology under the Coordinating Ministry of Communication and Informatics (Garwasakha Cabinet). I manage the km-itera.com website and work on the KM web migration program."},
 		{ID: 4, Date: "Oct 2026 – Present", IsIT: false, Role: "Adminfot – Website Division", Event: "Humas Informatika ITERA (Batch 3)", Desc: "Adminfot in the Website Division of Humas Informatika ITERA batch 3, helping manage and update the website's information content."},
 	},
 	"prestasi": {

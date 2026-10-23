@@ -152,10 +152,10 @@ templ Skills() {
 		</div>
 		<div class="mt-16 border-t border-line md:mt-24">
 			for i, g := range data.Stack {
-				<div class="reveal grid border-b border-line md:grid-cols-[16rem_1fr]" style={ delay(i) }>
+				<div class="reveal grid border-b border-line md:grid-cols-[22rem_1fr]" style={ delay(i) }>
 					<div class="wrap flex items-center gap-3 pt-6 md:w-auto md:border-r md:border-line md:py-0 md:pr-6">
 						<span class="label text-blue">{ fmt.Sprintf("0%d", i+1) }</span>
-						<h3 class="label text-fg">{ g.Label }</h3>
+						<h3 class="label whitespace-nowrap text-[0.85rem]! text-fg!">{ g.Label }</h3>
 					</div>
 					<!-- screen readers get a plain list; the moving row is decorative -->
 					<ul class="sr-only">
