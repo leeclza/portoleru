@@ -10,7 +10,7 @@ import (
 const typeMs = 18
 
 templ PengalamanPage(tab string, itOnly bool) {
-	@Layout("Pengalaman — Christopher Leon Saputra") {
+	@Layout("Experience — Christopher Leon Saputra") {
 		<section id="pengalaman" class="relative isolate overflow-hidden pb-28 pt-32 md:pb-40 md:pt-44">
 			<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 				<div class="grid-bg absolute inset-x-0 top-0 h-[36rem]"></div>
@@ -23,9 +23,9 @@ templ PengalamanPage(tab string, itOnly bool) {
 					<span class="label text-blue">Experience</span>
 				</div>
 				<h1 class="font-display text-[clamp(3rem,8vw,8rem)] font-medium leading-[0.92] tracking-[-0.045em]">
-					<span class="line"><span style={ delay(0) }>Pengalaman</span></span>
+					<span class="line"><span style={ delay(0) }>Experience</span></span>
 				</h1>
-				<p class="intro mt-6 max-w-lg text-muted" style={ delay(1) }>Diurutkan dari yang terbaru. Pilih item untuk melihat peran dan detail kegiatannya.</p>
+				<p class="intro mt-6 max-w-lg text-muted" style={ delay(1) }>Newest first. Select an item to see the role and what I did.</p>
 				<div id="pengalaman-body" class="intro mt-14 md:mt-20" style={ delay(2) }>
 					@PengalamanBody(tab, itOnly)
 				</div>
@@ -40,7 +40,7 @@ templ PengalamanPage(tab string, itOnly bool) {
 templ PengalamanBody(tab string, itOnly bool) {
 	<!-- TABS -->
 	<div class="flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-center md:justify-between">
-		<div class="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0" role="tablist" aria-label="Kategori pengalaman">
+		<div class="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0" role="tablist" aria-label="Experience categories">
 			<div class="flex w-max gap-1 rounded-full border border-line bg-bg-2 p-1">
 				for _, t := range data.Tabs {
 					<button
@@ -67,7 +67,7 @@ templ PengalamanBody(tab string, itOnly bool) {
 					templ.KV("border-line-strong text-muted hover:border-blue hover:text-fg", !itOnly) }
 			>
 				<span class={ "size-2 rounded-full border border-blue transition-colors", templ.KV("bg-blue", itOnly) }></span>
-				Hanya bidang IT
+				IT only
 			</button>
 		}
 	</div>
@@ -75,7 +75,7 @@ templ PengalamanBody(tab string, itOnly bool) {
 	{{ items := data.Items(tab, itOnly) }}
 	<ol class="anim-fade relative mt-4">
 		if len(items) == 0 {
-			<li class="py-16 text-center text-sm text-muted">Tidak ada pengalaman dalam kategori ini.</li>
+			<li class="py-16 text-center text-sm text-muted">No experience in this category yet.</li>
 		}
 		for i, ev := range items {
 			<li class="anim-item" style={ templ.SafeCSS(fmt.Sprintf("animation-delay: %dms", i*60)) }>
@@ -132,7 +132,7 @@ templ Modal(item data.RundownItem) {
 				hx-target="#modal"
 				hx-swap="innerHTML swap:200ms"
 				class="absolute right-5 top-5 grid size-10 place-items-center rounded-full border border-line-strong text-muted transition-colors hover:border-fg hover:text-fg"
-				aria-label="Tutup"
+				aria-label="Close"
 				autofocus
 			>
 				✕

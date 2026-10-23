@@ -56,7 +56,7 @@ func Layout(title string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"id\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"theme-color\" content=\"#080B14\"><title>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"theme-color\" content=\"#080B14\"><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +69,7 @@ func Layout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><meta name=\"description\" content=\"Christopher Leon Saputra — mahasiswa Teknik Informatika ITERA dengan fokus di full stack web development.\"><link rel=\"icon\" href=\"/favicon.ico\"><!-- reveal styles only hide content once we know JS is running --><script>document.documentElement.classList.add(\"js\")</script><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap\"><link rel=\"stylesheet\" href=\"/styles.css\"><script src=\"https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js\" defer></script><script src=\"/js/main.js\" defer></script></head><body class=\"antialiased\"><a href=\"#main\" class=\"sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-fg focus:px-4 focus:py-2 focus:text-bg\">Skip to content</a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><meta name=\"description\" content=\"Christopher Leon Saputra — Informatics Engineering student at ITERA focused on full stack web development.\"><link rel=\"icon\" href=\"/favicon.ico\"><!-- reveal styles only hide content once we know JS is running --><script>document.documentElement.classList.add(\"js\")</script><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap\"><link rel=\"stylesheet\" href=\"/styles.css\"><script src=\"https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js\" defer></script><script src=\"/js/main.js\" defer></script></head><body class=\"antialiased\"><a href=\"#main\" class=\"sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-fg focus:px-4 focus:py-2 focus:text-bg\">Skip to content</a>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -122,7 +122,7 @@ func Navbar() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<header class=\"nav fixed inset-x-0 top-0 z-50\"><nav class=\"wrap flex h-16 items-center justify-between md:h-20\" aria-label=\"Utama\"><a href=\"/#home\" class=\"group relative z-50 flex items-center gap-3\" aria-label=\"Leon — beranda\"><span class=\"grid size-9 place-items-center rounded-full border border-line-strong font-display text-sm font-semibold transition-colors duration-300 group-hover:border-blue\">L</span> <span class=\"font-display text-[0.95rem] font-medium tracking-[0.3em]\">LEON</span></a><ul class=\"hidden items-center gap-9 md:flex\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<header class=\"nav fixed inset-x-0 top-0 z-50\"><nav class=\"wrap flex h-16 items-center justify-between md:h-20\" aria-label=\"Main\"><a href=\"/#home\" class=\"group relative z-50 flex items-center gap-3\" aria-label=\"Leon — home\"><span class=\"grid size-9 place-items-center rounded-full border border-line-strong font-display text-sm font-semibold transition-colors duration-300 group-hover:border-blue\">L</span> <span class=\"font-display text-[0.95rem] font-medium tracking-[0.3em]\">LEON</span></a><ul class=\"hidden items-center gap-9 md:flex\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -171,7 +171,7 @@ func Navbar() templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</ul><a href=\"/#contact\" class=\"hidden items-center gap-2 text-sm md:flex\"><span class=\"relative flex size-2\"><span class=\"absolute inset-0 animate-ping rounded-full bg-blue opacity-60 motion-reduce:hidden\"></span><span class=\"relative size-2 rounded-full bg-blue\"></span></span> <span class=\"u-link\">Let's talk</span></a> <button id=\"menu-toggle\" type=\"button\" class=\"burger relative z-50 -mr-2 p-2 md:hidden\" aria-controls=\"menu-panel\" aria-expanded=\"false\" aria-label=\"Buka menu\"><span></span><span></span></button></nav><!-- MOBILE MENU --><div id=\"menu-panel\" class=\"menu-panel fixed inset-0 z-40 flex flex-col bg-bg md:hidden\"><div class=\"wrap flex flex-1 flex-col justify-center gap-2 pt-16\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</ul><a href=\"/#contact\" class=\"hidden items-center gap-2 text-sm md:flex\"><span class=\"relative flex size-2\"><span class=\"absolute inset-0 animate-ping rounded-full bg-blue opacity-60 motion-reduce:hidden\"></span><span class=\"relative size-2 rounded-full bg-blue\"></span></span> <span class=\"u-link\">Let's talk</span></a> <button id=\"menu-toggle\" type=\"button\" class=\"burger relative z-50 -mr-2 p-2 md:hidden\" aria-controls=\"menu-panel\" aria-expanded=\"false\" aria-label=\"Open menu\"><span></span><span></span></button></nav><!-- MOBILE MENU --><div id=\"menu-panel\" class=\"menu-panel fixed inset-0 z-40 flex flex-col bg-bg md:hidden\"><div class=\"wrap flex flex-1 flex-col justify-center gap-2 pt-16\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

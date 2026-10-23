@@ -60,7 +60,7 @@ templ Hero() {
 				<div class="draw mt-10 h-px w-full bg-gradient-to-r from-blue via-violet/50 to-transparent md:mt-14"></div>
 				<div class="mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:items-end">
 					<p class="intro max-w-xl text-base leading-relaxed text-muted md:col-span-6 md:text-lg" style={ delay(1) }>
-						Saya <span class="text-fg">Christopher Leon Saputra</span>, mahasiswa aktif semester 5 Teknik Informatika di Institut Teknologi Sumatera (ITERA) dengan fokus di full stack web development.
+						I'm <span class="text-fg">Christopher Leon Saputra</span>, a 5th-semester Informatics Engineering student at Institut Teknologi Sumatera (ITERA), focused on full stack web development.
 					</p>
 					<div class="intro flex flex-wrap gap-3 md:col-span-6 md:justify-end" style={ delay(2) }>
 						<a href="#projects" class="btn btn-primary">
@@ -73,7 +73,7 @@ templ Hero() {
 			</div>
 			<!-- SCROLL CUE -->
 			<div class="intro flex items-end justify-between pb-8" style={ delay(4) }>
-				<a href="#about" class="group flex items-center gap-4" aria-label="Scroll ke About">
+				<a href="#about" class="group flex items-center gap-4" aria-label="Scroll to About">
 					<span class="relative h-12 w-px overflow-hidden bg-line-strong"><span class="cue absolute inset-0 bg-fg"></span></span>
 					<span class="label transition-colors group-hover:text-fg">Scroll</span>
 				</a>
@@ -90,12 +90,12 @@ templ About() {
 			<div class="grid gap-14 md:grid-cols-12 md:gap-10">
 				<div class="md:col-span-5">
 					<h2 class="section-head">
-						<span class="reveal-line block overflow-hidden"><span>Hai, saya</span></span>
+						<span class="reveal-line block overflow-hidden"><span>Hi, I'm</span></span>
 						<span class="reveal-line block overflow-hidden" style={ delay(1) }><span class="grad-text">Leon.</span></span>
 					</h2>
 					<figure class="reveal relative mt-12 max-w-sm" style={ delay(2) }>
 						<div class="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-blue/35 via-bg-3 to-violet/25">
-							<img src="/image/pp.png" alt="Foto Christopher Leon Saputra" loading="lazy" class="absolute inset-0 size-full object-cover"/>
+							<img src="/image/pp.png" alt="Photo of Christopher Leon Saputra" loading="lazy" class="absolute inset-0 size-full object-cover"/>
 							<div class="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-line"></div>
 						</div>
 						<figcaption class="label mt-4 flex justify-between"><span>Lampung, ID</span><span>ITERA · IF 24</span></figcaption>
@@ -103,21 +103,27 @@ templ About() {
 				</div>
 				<div class="md:col-span-6 md:col-start-7 md:pt-4">
 					<p class="reveal font-display text-2xl leading-snug tracking-tight md:text-[2.1rem]">
-						Mahasiswa Teknik Informatika yang suka membangun antarmuka web — dari tampilan yang rapi sampai alur data di baliknya.
+						An Informatics Engineering student who loves building for the web — from clean interfaces to the data flowing behind them.
 					</p>
 					<div class="reveal mt-10 space-y-5 leading-relaxed text-muted" style={ delay(1) }>
 						<p>
-							Saat ini saya mahasiswa aktif semester 5 di Institut Teknologi Sumatera. Fokus saya ada di full stack web development, dan saat ini sedang aktif memperdalam Go.
+							I'm currently in my 5th semester at Institut Teknologi Sumatera. My focus is full stack web development, and right now I'm going deeper into Go.
 						</p>
 						<p>
-							Sebagian besar pengalaman saya datang dari membangun website kegiatan kampus bersama tim: front-end untuk e-voting BUMI KETUPAT dan website PPLK 2025, memimpin Divisi IT IGTTPB 2025, hingga kini memegang sub-divisi back-end di PPLK ITERA 2026.
+							Most of my experience comes from building campus event websites with a team: the front-end for the BUMI KETUPAT e-voting site and PPLK 2025, leading the IT division at IGTTPB 2025, and leading the back-end sub-division for PPLK ITERA 2026.
 						</p>
 					</div>
 					<dl class="mt-14 grid grid-cols-2 border-t border-line">
-						@fact(0, "Kampus", "Institut Teknologi Sumatera")
-						@fact(1, "Program Studi", "Teknik Informatika · Semester 5")
-						@fact(2, "Fokus", "Full Stack Web Development")
-						@fact(3, "Sekarang", "Asisten Praktikum Dasar Teknologi Digital")
+						@fact(0, "Campus", "Institut Teknologi Sumatera")
+						@fact(1, "Major", "Informatics Engineering · 5th Semester")
+						@fact(2, "Focus", "Full Stack Web Development")
+						<div class="reveal border-b border-l border-line py-5 pl-5" style={ delay(3) }>
+							<dt class="label">Status</dt>
+							<dd class="mt-2 flex items-center gap-2.5 text-sm md:text-base">
+								<span class="relative flex size-2"><span class="absolute inset-0 animate-ping rounded-full bg-blue opacity-60 motion-reduce:hidden"></span><span class="relative size-2 rounded-full bg-blue"></span></span>
+								Alive
+							</dd>
+						</div>
 					</dl>
 				</div>
 			</div>
@@ -141,7 +147,7 @@ templ Skills() {
 					<span class="reveal-line block overflow-hidden"><span>Tools I</span></span>
 					<span class="reveal-line block overflow-hidden" style={ delay(1) }><span>work with.</span></span>
 				</h2>
-				<p class="reveal max-w-xs text-muted" style={ delay(2) }>Bahasa, framework, database, dan tools yang saya pakai untuk belajar dan membangun project.</p>
+				<p class="reveal max-w-xs text-muted" style={ delay(2) }>Languages, frameworks, databases, and tools I use to learn and build projects.</p>
 			</div>
 		</div>
 		<div class="mt-16 border-t border-line md:mt-24">
@@ -158,7 +164,7 @@ templ Skills() {
 						}
 					</ul>
 					<div class="marquee overflow-hidden py-6" aria-hidden="true">
-						<div class="marquee-track marquee-ltr" style={ templ.SafeCSS(fmt.Sprintf("--dur:%ds", 30+i*6)) }>
+						<div class="marquee-track" style={ templ.SafeCSS(fmt.Sprintf("--dur:%ds", 30+i*6)) }>
 							for range 2 {
 								for _, t := range data.Repeat(g.Items, 9) {
 									<span class="mr-3 flex items-center gap-3 rounded-2xl border border-line bg-bg py-2 pl-2 pr-5 transition-colors duration-300 hover:border-blue/50">
@@ -187,7 +193,7 @@ templ Projects() {
 					<span class="reveal-line block overflow-hidden"><span>Projects &amp;</span></span>
 					<span class="reveal-line block overflow-hidden" style={ delay(1) }><span class="grad-text">case studies.</span></span>
 				</h2>
-				<p class="reveal max-w-sm text-muted" style={ delay(2) }>Website yang saya bangun bersama tim kepanitiaan kampus, plus portofolio ini sendiri.</p>
+				<p class="reveal max-w-sm text-muted" style={ delay(2) }>Websites I've built with campus event teams, plus this portfolio itself.</p>
 			</div>
 			<!-- extra cards are collapsed by main.js; without JS everything shows -->
 			<div id="project-list" class="grid gap-x-10 gap-y-20 md:grid-cols-2 md:gap-y-28">
@@ -220,7 +226,7 @@ templ projectCard(i int, p data.Project) {
 		aria-labelledby={ fmt.Sprintf("project-title-%d", p.ID) }
 	>
 		<div class="proj-media relative aspect-[16/11]">
-			<img src={ p.Image } alt={ "Tampilan " + p.Title } loading="lazy" class="absolute inset-0 size-full object-cover"/>
+			<img src={ p.Image } alt={ "Screenshot of " + p.Title } loading="lazy" class="absolute inset-0 size-full object-cover"/>
 			<div class="proj-glow"></div>
 			<div class="absolute left-4 top-4 flex gap-2">
 				<span class="label rounded-full bg-bg/70 px-3 py-1.5 text-fg! backdrop-blur">{ fmt.Sprintf("%02d / %02d", p.ID, len(data.Projects)) }</span>
@@ -245,7 +251,7 @@ templ projectCard(i int, p data.Project) {
 				</h3>
 			</div>
 			if p.Link != "" {
-				<a href={ templ.SafeURL(p.Link) } target="_blank" rel="noopener noreferrer" aria-label={ "Buka " + p.Title + " (tab baru)" } class="proj-cta grid size-12 shrink-0 place-items-center rounded-full border border-line-strong">
+				<a href={ templ.SafeURL(p.Link) } target="_blank" rel="noopener noreferrer" aria-label={ "Open " + p.Title + " (new tab)" } class="proj-cta grid size-12 shrink-0 place-items-center rounded-full border border-line-strong">
 					@arrow("")
 				</a>
 			}
@@ -274,7 +280,7 @@ templ Experience() {
 						<span class="reveal-line block overflow-hidden"><span>Journey so</span></span>
 						<span class="reveal-line block overflow-hidden" style={ delay(1) }><span>far.</span></span>
 					</h2>
-					<p class="reveal mt-6 max-w-sm text-muted" style={ delay(2) }>Kepanitiaan, magang, organisasi, dan pelatihan selama kuliah di ITERA.</p>
+					<p class="reveal mt-6 max-w-sm text-muted" style={ delay(2) }>Committees, internships, organizations, and training during my studies at ITERA.</p>
 					<div class="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
 						for i, t := range data.Tabs {
 							<a href={ templ.SafeURL("/pengalaman?tab=" + t.Key) } class="reveal group bg-bg p-5 transition-colors duration-300 hover:bg-bg-2 md:p-6" style={ delay(i) }>
@@ -285,7 +291,7 @@ templ Experience() {
 					</div>
 				</div>
 				<div class="md:col-span-7">
-					<p class="reveal label mb-6">Highlight — kepanitiaan bidang IT</p>
+					<p class="reveal label mb-6">Highlights — IT committees</p>
 					<ol class="relative border-l border-line">
 						for i, ev := range data.Items("kepanitiaan", true) {
 							<li class="reveal relative" style={ delay(i) }>
@@ -304,7 +310,7 @@ templ Experience() {
 						}
 					</ol>
 					<a href="/pengalaman" class="btn btn-ghost reveal mt-10">
-						Lihat semua pengalaman
+						View all experience
 						@arrow("arrow")
 					</a>
 				</div>
@@ -328,9 +334,9 @@ templ Contact() {
 			</h2>
 			<div class="mt-16 grid gap-12 md:mt-24 md:grid-cols-12">
 				<div class="reveal md:col-span-5">
-					<p class="max-w-sm leading-relaxed text-muted">Terbuka untuk kolaborasi project, kepanitiaan IT, atau sekadar ngobrol soal web development. Cara tercepat menghubungi saya lewat LinkedIn.</p>
-					<a href={ templ.SafeURL(socials[0].Href) } target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-8">
-						Hubungi via LinkedIn
+					<p class="max-w-sm leading-relaxed text-muted">Open to project collaborations, IT committee roles, or just a chat about web development. The fastest way to reach me is Instagram.</p>
+					<a href={ templ.SafeURL(socials[2].Href) } target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-8">
+						Message me on Instagram
 						@arrow("arrow")
 					</a>
 				</div>
@@ -365,5 +371,5 @@ func handle(href string) string {
 
 // ongoing reports whether an experience date range is still running.
 func ongoing(date string) bool {
-	return strings.HasSuffix(date, "Sekarang")
+	return strings.HasSuffix(date, data.Ongoing)
 }

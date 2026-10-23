@@ -76,7 +76,7 @@ func PengalamanPage(tab string, itOnly bool) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">Pengalaman</span></span></h1><p class=\"intro mt-6 max-w-lg text-muted\" style=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">Experience</span></span></h1><p class=\"intro mt-6 max-w-lg text-muted\" style=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -89,7 +89,7 @@ func PengalamanPage(tab string, itOnly bool) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\">Diurutkan dari yang terbaru. Pilih item untuk melihat peran dan detail kegiatannya.</p><div id=\"pengalaman-body\" class=\"intro mt-14 md:mt-20\" style=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\">Newest first. Select an item to see the role and what I did.</p><div id=\"pengalaman-body\" class=\"intro mt-14 md:mt-20\" style=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -116,7 +116,7 @@ func PengalamanPage(tab string, itOnly bool) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Layout("Pengalaman — Christopher Leon Saputra").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Layout("Experience — Christopher Leon Saputra").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -146,7 +146,7 @@ func PengalamanBody(tab string, itOnly bool) templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- TABS --><div class=\"flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-center md:justify-between\"><div class=\"-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0\" role=\"tablist\" aria-label=\"Kategori pengalaman\"><div class=\"flex w-max gap-1 rounded-full border border-line bg-bg-2 p-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- TABS --><div class=\"flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-center md:justify-between\"><div class=\"-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0\" role=\"tablist\" aria-label=\"Experience categories\"><div class=\"flex w-max gap-1 rounded-full border border-line bg-bg-2 p-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -313,7 +313,7 @@ func PengalamanBody(tab string, itOnly bool) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"></span> Hanya bidang IT</button>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"></span> IT only</button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -328,7 +328,7 @@ func PengalamanBody(tab string, itOnly bool) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if len(items) == 0 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<li class=\"py-16 text-center text-sm text-muted\">Tidak ada pengalaman dalam kategori ini.</li>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<li class=\"py-16 text-center text-sm text-muted\">No experience in this category yet.</li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -463,7 +463,7 @@ func Modal(item data.RundownItem) templ.Component {
 			templ_7745c5c3_Var25 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "<div class=\"modal-backdrop fixed inset-0 z-[60] flex items-end justify-center p-4 sm:items-center\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\"><!-- click outside the card closes it --><div class=\"absolute inset-0 bg-bg/70 backdrop-blur-sm\" hx-get=\"/pengalaman/close\" hx-target=\"#modal\" hx-swap=\"innerHTML swap:200ms\"></div><div class=\"modal-card relative w-full max-w-lg overflow-hidden rounded-3xl border border-line-strong bg-bg-2 p-7 shadow-2xl shadow-black/50 md:p-9\"><div class=\"pointer-events-none absolute -right-20 -top-20 size-56 rounded-full bg-blue/20 blur-3xl\" aria-hidden=\"true\"></div><button hx-get=\"/pengalaman/close\" hx-target=\"#modal\" hx-swap=\"innerHTML swap:200ms\" class=\"absolute right-5 top-5 grid size-10 place-items-center rounded-full border border-line-strong text-muted transition-colors hover:border-fg hover:text-fg\" aria-label=\"Tutup\" autofocus>✕</button><p class=\"label text-blue\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "<div class=\"modal-backdrop fixed inset-0 z-[60] flex items-end justify-center p-4 sm:items-center\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\"><!-- click outside the card closes it --><div class=\"absolute inset-0 bg-bg/70 backdrop-blur-sm\" hx-get=\"/pengalaman/close\" hx-target=\"#modal\" hx-swap=\"innerHTML swap:200ms\"></div><div class=\"modal-card relative w-full max-w-lg overflow-hidden rounded-3xl border border-line-strong bg-bg-2 p-7 shadow-2xl shadow-black/50 md:p-9\"><div class=\"pointer-events-none absolute -right-20 -top-20 size-56 rounded-full bg-blue/20 blur-3xl\" aria-hidden=\"true\"></div><button hx-get=\"/pengalaman/close\" hx-target=\"#modal\" hx-swap=\"innerHTML swap:200ms\" class=\"absolute right-5 top-5 grid size-10 place-items-center rounded-full border border-line-strong text-muted transition-colors hover:border-fg hover:text-fg\" aria-label=\"Close\" autofocus>✕</button><p class=\"label text-blue\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -240,8 +240,6 @@ body {
 @keyframes marquee { to { transform: translateX(-50%); } }
 .marquee { mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
 .marquee-track { display: flex; width: max-content; animation: marquee var(--dur, 40s) linear infinite; }
-/* left → right: same loop, played backwards */
-.marquee-ltr { animation-direction: reverse; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 
 /* ---- project cards ---- */

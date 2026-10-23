@@ -50,7 +50,7 @@
   const setMenu = (open) => {
     document.documentElement.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     document.body.style.overflow = open ? "hidden" : "";
   };
   if (toggle) {
