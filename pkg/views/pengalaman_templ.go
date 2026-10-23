@@ -436,9 +436,8 @@ func swapAttrs(tab string, itOnly bool) templ.Attributes {
 		q += "&it=1"
 	}
 	return templ.Attributes{
-		"hx-get":      "/pengalaman/body?" + q,
-		"hx-target":   "#pengalaman-body",
-		"hx-push-url": "/pengalaman?" + q,
+		"hx-get":    "/pengalaman/body?" + q,
+		"hx-target": "#pengalaman-body",
 	}
 }
 
@@ -470,7 +469,7 @@ func Modal(item data.RundownItem) templ.Component {
 		var templ_7745c5c3_Var26 string
 		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(item.Date)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 140, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 139, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 		if templ_7745c5c3_Err != nil {
@@ -483,7 +482,7 @@ func Modal(item data.RundownItem) templ.Component {
 		var templ_7745c5c3_Var27 string
 		templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(item.Role)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 142, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 141, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 		if templ_7745c5c3_Err != nil {
@@ -496,7 +495,7 @@ func Modal(item data.RundownItem) templ.Component {
 		var templ_7745c5c3_Var28 string
 		templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(item.Event)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 144, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 143, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 		if templ_7745c5c3_Err != nil {
@@ -509,7 +508,7 @@ func Modal(item data.RundownItem) templ.Component {
 		var templ_7745c5c3_Var29 string
 		templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.ResolveAttributeValue(item.Desc)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 147, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 146, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var29)
 		if templ_7745c5c3_Err != nil {
@@ -530,7 +529,7 @@ func Modal(item data.RundownItem) templ.Component {
 		var templ_7745c5c3_Var30 string
 		templ_7745c5c3_Var30, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(templ.SafeCSS(fmt.Sprintf("--type-end: %dms", len([]rune(item.Desc))*typeMs)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 151, Col: 91}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/views/pengalaman.templ`, Line: 150, Col: 91}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 		if templ_7745c5c3_Err != nil {

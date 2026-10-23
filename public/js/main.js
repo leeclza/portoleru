@@ -113,6 +113,12 @@
     });
   }
 
+  // links from home open a preselected tab via ?tab=…; keep the address bar
+  // at plain /pengalaman so tabs don't pile up as separate visited pages
+  if (location.pathname === "/pengalaman" && location.search) {
+    history.replaceState(null, "", "/pengalaman");
+  }
+
   observe(document);
   // content swapped in by htmx (projects "show more", pengalaman tabs)
   document.addEventListener("htmx:afterSettle", () => observe(document));

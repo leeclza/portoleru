@@ -30,7 +30,7 @@ Menyediakan halaman web yang menampilkan profil, karya, dan pengalaman Leon seca
 | F-06 | Pada kategori Kepanitiaan, pengunjung dapat memfilter pengalaman di bidang **IT**. |
 | F-07 | Pengunjung dapat mengklik item pengalaman untuk melihat detail (peran, kegiatan, tanggal, deskripsi) dalam modal. |
 | F-08 | Sistem menyediakan link ke LinkedIn, Instagram, dan GitHub pemilik. |
-| F-09 | Kategori dan filter yang dipilih tersimpan di URL, sehingga bisa di-refresh atau dibagikan. |
+| F-09 | Alamat halaman tetap `/pengalaman` saat berpindah kategori atau filter, sehingga tidak menambah riwayat halaman. |
 
 ### Kebutuhan Non-Fungsional
 | Kode | Kebutuhan |
