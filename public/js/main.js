@@ -176,6 +176,28 @@
     requestAnimationFrame(tick);
   });
 
+  // ---- in-page anchors: smooth scroll without leaving #section in the URL ----
+  const behavior = reduce ? "auto" : "smooth";
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[href*='#']");
+    if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const url = new URL(a.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname) return;
+    if (url.hash === "#main") return; // skip link keeps its native focus jump
+    e.preventDefault();
+    const target = url.hash.length > 1 && document.getElementById(url.hash.slice(1));
+    if (target) target.scrollIntoView({ behavior });
+    else scrollTo({ top: 0, behavior });
+  });
+  // arriving from another page via /#section: land on it, then drop the hash
+  if (location.hash) {
+    addEventListener("load", () => {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView({ behavior: "auto" });
+      history.replaceState(null, "", location.pathname + location.search);
+    });
+  }
+
   // links from home open a preselected tab via ?tab=…; keep the address bar
   // at plain /pengalaman so tabs don't pile up as separate visited pages
   if (location.pathname === "/pengalaman" && location.search) {

@@ -228,6 +228,10 @@ templ projectCard(i int, p data.Project) {
 		<div class="proj-media relative aspect-[16/11]">
 			<img src={ p.Image } alt={ "Screenshot of " + p.Title } loading="lazy" class="absolute inset-0 size-full object-cover"/>
 			<div class="proj-glow"></div>
+			if p.Link != "" {
+				<!-- whole image opens the live site; the round arrow button stays the keyboard target -->
+				<a href={ templ.SafeURL(p.Link) } target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" class="absolute inset-0"></a>
+			}
 			<div class="absolute left-4 top-4 flex gap-2">
 				<span class="label rounded-full bg-bg/70 px-3 py-1.5 text-fg! backdrop-blur">{ fmt.Sprintf("%02d / %02d", p.ID, len(data.Projects)) }</span>
 				if i < 2 {
@@ -297,7 +301,7 @@ templ Experience() {
 						for i, ev := range data.Items("kepanitiaan", true) {
 							<li class="reveal relative" style={ delay(i) }>
 								<span class={ "absolute -left-[5px] top-8 size-[9px] rounded-full border border-blue", templ.KV("bg-blue shadow-[0_0_0_4px_rgb(108_140_255/0.18)]", ongoing(ev.Date)), templ.KV("bg-bg", !ongoing(ev.Date)) } aria-hidden="true"></span>
-								<a href={ templ.SafeURL("/pengalaman?tab=kepanitiaan&it=1") } class="row-hover grid gap-1 py-6 pl-8 md:grid-cols-[1fr_auto] md:items-center md:gap-6 md:pr-4">
+								<a href={ templ.SafeURL("/pengalaman?tab=kepanitiaan") } class="row-hover grid gap-1 py-6 pl-8 md:grid-cols-[1fr_auto] md:items-center md:gap-6 md:pr-4">
 									<div>
 										<p class="label">{ ev.Date }</p>
 										<h3 class="mt-2 font-display text-xl font-medium tracking-tight md:text-2xl">{ ev.Role }</h3>
