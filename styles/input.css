@@ -299,6 +299,74 @@ html:not(.js) .proj-toggle-row { display: none; }
   white-space: nowrap;
 }
 
+/* ---- certificates carousel ---- */
+
+.cert-track {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  padding-inline: max(var(--gutter), calc((100vw - 84rem) / 2 + var(--gutter)));
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.cert-track::-webkit-scrollbar { display: none; }
+.cert-track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+.cert-slide {
+  flex: 0 0 min(88%, 52rem);
+  scroll-snap-align: start;
+  opacity: 0.4;
+  transition: opacity 0.6s var(--ease-out);
+}
+.cert-slide.is-active, html:not(.js) .cert-slide { opacity: 1; }
+.cert-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: var(--bg-3);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: zoom-in;
+}
+.cert-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  transition: transform 1.2s var(--ease-out);
+  -webkit-user-drag: none;
+}
+.cert-media:hover img { transform: scale(1.03); }
+.cert-btn { transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+.cert-btn:hover:not(:disabled) { background: var(--fg); color: var(--bg); }
+.cert-btn:disabled { opacity: 0.35; cursor: default; }
+.cert-dot {
+  height: 3px;
+  width: 1.5rem;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: width 0.5s var(--ease-out), background-color 0.3s;
+}
+.cert-dot[aria-current="true"] { width: 3.5rem; background: linear-gradient(90deg, var(--blue), var(--violet)); }
+html:not(.js) .cert-controls { display: none; }
+
+.cert-lightbox {
+  max-width: min(96vw, 110rem);
+  max-height: 94vh;
+  margin: auto;
+  padding: 0;
+  border-radius: 1rem;
+  background: var(--bg-2);
+  color: var(--fg);
+  overflow: hidden;
+}
+.cert-lightbox[open] { animation: modal-in 0.4s var(--ease-out) both; }
+.cert-lightbox::backdrop { background: rgb(4 6 12 / 0.85); backdrop-filter: blur(6px); }
+.cert-lightbox img { display: block; max-width: 100%; max-height: 94vh; object-fit: contain; }
+
 /* ---- skill / experience rows ---- */
 
 .row-hover { position: relative; transition: color 0.3s; }

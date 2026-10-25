@@ -176,6 +176,93 @@
     requestAnimationFrame(tick);
   });
 
+  // ---- certificates: snap carousel with buttons, dots, mouse drag, lightbox ----
+  const track = document.getElementById("cert-track");
+  if (track) {
+    const slides = [...track.children];
+    const dots = [...document.querySelectorAll(".cert-dot")];
+    const prev = document.getElementById("cert-prev");
+    const next = document.getElementById("cert-next");
+    const current = document.getElementById("cert-current");
+    let active = -1;
+
+    const setActive = (i) => {
+      if (i === active) return;
+      active = i;
+      slides.forEach((s, j) => s.classList.toggle("is-active", j === i));
+      dots.forEach((d, j) => d.setAttribute("aria-current", String(j === i)));
+      current.textContent = String(i + 1).padStart(2, "0");
+      prev.disabled = i === 0;
+      next.disabled = i === slides.length - 1;
+    };
+    // the active slide is the one whose left edge sits closest to the snap line
+    const nearest = () => {
+      const edge = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).scrollPaddingLeft);
+      let best = 0;
+      slides.forEach((s, j) => {
+        if (Math.abs(s.getBoundingClientRect().left - edge) < Math.abs(slides[best].getBoundingClientRect().left - edge)) best = j;
+      });
+      // at the far right end the last slide can't reach the snap line
+      if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 2) best = slides.length - 1;
+      return best;
+    };
+    const go = (i) => {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      const delta = slides[i].getBoundingClientRect().left - slides[active].getBoundingClientRect().left;
+      track.scrollBy({ left: delta, behavior });
+      setActive(i);
+    };
+
+    let scrollRaf = 0;
+    track.addEventListener("scroll", () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => { scrollRaf = 0; setActive(nearest()); });
+    }, { passive: true });
+    prev.addEventListener("click", () => go(active - 1));
+    next.addEventListener("click", () => go(active + 1));
+    dots.forEach((d) => d.addEventListener("click", () => go(+d.dataset.index)));
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(active + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(active - 1); }
+    });
+
+    // mouse: drag with LMB;
+    // a drag must not also count as a click that opens the lightbox
+    let startX = 0, startLeft = 0, dragging = false, moved = false;
+    track.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      dragging = true; moved = false;
+      startX = e.clientX; startLeft = track.scrollLeft;
+    });
+    addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 5) { moved = true; track.classList.add("is-dragging"); }
+      if (moved) track.scrollLeft = startLeft - dx;
+    });
+    addEventListener("pointerup", () => {
+      if (!dragging) return;
+      dragging = false;
+      // re-enabling snap makes the browser settle on the closest slide
+      if (moved) track.classList.remove("is-dragging");
+    });
+
+    const box = document.getElementById("cert-lightbox");
+    const boxImg = box.querySelector("img");
+    track.addEventListener("click", (e) => {
+      const btn = e.target.closest(".cert-media");
+      if (!btn) return;
+      if (moved) { moved = false; return; }
+      boxImg.src = btn.dataset.full;
+      boxImg.alt = "Certificate: " + btn.dataset.title;
+      box.showModal();
+    });
+    // clicking the backdrop (outside the image) closes it
+    box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+
+    setActive(0);
+  }
+
   // ---- in-page anchors: smooth scroll without leaving #section in the URL ----
   const behavior = reduce ? "auto" : "smooth";
   document.addEventListener("click", (e) => {

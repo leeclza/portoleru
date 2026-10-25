@@ -18,21 +18,49 @@ type Project struct {
 	Role     string
 	Year     string
 	Stack    []string
+	// Date is the work period, e.g. "Jun 2026 – Aug 2026"; it drives the
+	// "Recent" badge (see Recent). Empty never shows the badge.
+	Date string
 }
 
-// Projects are ordered newest first; the first two are badged "Recent".
+// RecentWindow is how long after its last month something stays "Recent".
+const RecentWindow = 3 // months
+
+// Recent reports whether a date like "Jul 2025", "Jun 2026 – Aug 2026" or
+// "Aug 2026 – Present" ended within RecentWindow months of now. It is
+// evaluated on every request, so the badge drops off by itself.
+func Recent(date string) bool {
+	if date == "" {
+		return false
+	}
+	end := date
+	if _, after, ok := strings.Cut(date, " – "); ok {
+		end = after
+	}
+	if end == Ongoing {
+		return true
+	}
+	t, err := time.Parse("Jan 2006", end)
+	if err != nil {
+		return false
+	}
+	// count from the end of that month
+	return time.Now().Before(t.AddDate(0, 1+RecentWindow, 0))
+}
+
+// Projects are ordered newest first.
 var Projects = []Project{
 	{ID: 1, Title: "Website K-EXPO 2026",
 		Description: "A space-exploration themed digital portal for Kemahasiswaan Expo (K-EXPO) ITERA 2026. I led the Technology Implementation Division.",
 		Image:       "/image/kexpo26.png",
 		Link:        "",
-		Category:    "Event Website", Role: "Head of Technology Implementation", Year: "2026",
+		Category:    "Event Website", Role: "Head of Technology Implementation", Year: "2026", Date: "Aug 2026 – Present",
 		Stack: []string{"Next.js", "TypeScript", "Tailwind CSS", "Go", "Gin", "GORM", "PostgreSQL", "Google OAuth"}},
 	{ID: 2, Title: "Website PPLK 2026",
 		Description: "Website and game for ITERA's 2026 campus orientation program (PPLK). As back-end sub-division lead, I handled the data flow, managed the database, and made sure the server and client worked together smoothly.",
 		Image:       "/image/pplk26.png",
 		Link:        "https://pplkitera.com",
-		Category:    "Event Website", Role: "Back-End Sub-Division Lead", Year: "2026",
+		Category:    "Event Website", Role: "Back-End Sub-Division Lead", Year: "2026", Date: "Jun 2026 – Aug 2026",
 		Stack: []string{"PHP", "Laravel", "MySQL"}},
 	{ID: 3, Title: "Website Portofolio",
 		Description: "My personal portfolio website, built for personal branding.",
@@ -43,17 +71,46 @@ var Projects = []Project{
 		Description: "A website for finding groups, tracking participant attendance, and submitting assignments. I was Head of the IT Division.",
 		Image:       "/image/igttpb25.png",
 		Link:        "https://www.igttpb.site/",
-		Category:    "Event Website", Role: "Head of IT Division", Year: "2025", Stack: []string{"Next.js"}},
+		Category:    "Event Website", Role: "Head of IT Division", Year: "2025", Date: "Sep 2025 – Oct 2025", Stack: []string{"Next.js"}},
 	{ID: 5, Title: "Website PPLK 2025",
 		Description: "Website for ITERA's 2025 new student orientation program (PPLK). I worked on the front-end, building the Profile and UPA Detail pages.",
 		Image:       "/image/pplk25.png",
 		Link:        "https://pplkitera.com",
-		Category:    "Event Website", Role: "Front-End", Year: "2025", Stack: []string{"React"}},
+		Category:    "Event Website", Role: "Front-End", Year: "2025", Date: "Jun 2025 – Aug 2025", Stack: []string{"React"}},
 	{ID: 6, Title: "Website Pemilihan Ketua Angkatan",
 		Description: "A secure, transparent, and efficient e-voting website for electing the class leader. I worked on the front-end (home page).",
 		Image:       "/image/bumiketupat.png",
 		Link:        "https://www.algovista24.site/",
-		Category:    "E-Voting", Role: "Front-End", Year: "2025"},
+		Category:    "E-Voting", Role: "Front-End", Year: "2025", Date: "Feb 2025 – Mar 2025"},
+}
+
+// Certificate images live in public/image/cert, rendered unchanged from the
+// original PDFs.
+type Certificate struct {
+	Title  string
+	Issuer string
+	Date   string
+	Desc   string
+	Image  string
+}
+
+// Certificates are ordered newest first.
+var Certificates = []Certificate{
+	{Title: "Lab Assistant – Pengenalan Komputasi", Issuer: "Pusat Tahap Persiapan Bersama ITERA", Date: "May 2026",
+		Desc:  "Recognition as a lab assistant for the Pengenalan Komputasi course in the even semester of 2025/2026.",
+		Image: "/image/cert/asprak-pk.png"},
+	{Title: "Lab Assistant – Dasar Teknologi Digital", Issuer: "Pusat Tahap Persiapan Bersama ITERA", Date: "May 2026",
+		Desc:  "Recognition as a lab assistant for the Dasar Teknologi Digital course in the odd semester of 2025/2026.",
+		Image: "/image/cert/asprak-dtd.png"},
+	{Title: "Volunteer – HMIF Mengabdi", Issuer: "HMIF ITERA", Date: "Sep 2025",
+		Desc:  "Certificate of appreciation for volunteering in HMIF Mengabdi, a community service program themed around literacy, culture, and technology.",
+		Image: "/image/cert/hmif-mengabdi.png"},
+	{Title: "Front-End Staff – PPLK ITERA 2025", Issuer: "Institut Teknologi Sumatera", Date: "Aug 2025",
+		Desc:  "Served as front-end staff for ITERA's 2025 new student orientation program, \"Elysion Legacy: Crafting Satriya ITERA for Global Goals\".",
+		Image: "/image/cert/pplk2025.png"},
+	{Title: "Mini Bootcamp 1.0", Issuer: "HMIF ITERA", Date: "Nov 2024",
+		Desc:  "Completed HMIF's mini bootcamp on building websites with React, Next.js, and Tailwind CSS.",
+		Image: "/image/cert/bootcamp-hmif.png"},
 }
 
 // Tech is one stack item; Icon is the file name in public/icons (skillicons.dev).
@@ -148,7 +205,7 @@ var DataByTab = map[string][]RundownItem{
 		{ID: 8, Date: "Mar 2026 – May 2026", IsIT: false, Role: "Vice Chair", Event: "Paskah KMK ITERA 2026", Desc: "Helped the chair coordinate the whole event and backed them up on technical decisions."},
 		{ID: 10, Date: "Apr 2026 – Oct 2026", IsIT: false, Role: "Event Management Staff", Event: "Serasehan HMIF ITERA", Desc: "Prepared the event rundown and SOP as the technical guide for running the event."},
 		{ID: 11, Date: "Apr 2026 – Present", IsIT: false, Role: "Timekeeper Sub-Division Lead", Event: "Point Project 4.0 HMIF ITERA", Desc: "Led the timekeeper sub-division, keeping every part of the event on schedule according to the rundown."},
-		{ID: 12, Date: "Aug 2026", IsIT: true, Role: "Back-End Sub-Division Lead, IMTEK Division", Event: "PPLK ITERA 2026", Desc: "Led the IMTEK back-end sub-division building the PPLK 2026 website and game with Laravel and MySQL: handling the data flow, managing the database, and keeping server–client interaction running smoothly."},
+		{ID: 12, Date: "Jun 2026 – Aug 2026", IsIT: true, Role: "Back-End Sub-Division Lead, IMTEK Division", Event: "PPLK ITERA 2026", Desc: "Led the IMTEK back-end sub-division building the PPLK 2026 website and game with Laravel and MySQL: handling the data flow, managing the database, and keeping server–client interaction running smoothly."},
 		{ID: 13, Date: "Aug 2026 – Present", IsIT: true, Role: "Head of Technology Implementation", Event: "Kemahasiswaan Expo 2026", Desc: "Led the Technology Implementation Division in building the K-EXPO 2026 digital portal, from splitting work across the team to developing the website with Next.js, Go (Gin), PostgreSQL, and Google OAuth login."},
 		{ID: 14, Date: "Oct 2026 – Present", IsIT: true, Role: "Back-End Staff", Event: "Neofest 2026", Desc: "Developing the back-end of the Neofest 2026 website, including data management and the server services used by the front-end."},
 		{ID: 15, Date: "Oct 2026 – Present", IsIT: true, Role: "Head of Technology Implementation", Event: "Pemilihan Raya KM ITERA 2026", Desc: "Leading the Technology Implementation Division of the KM ITERA 2026 general election, responsible for its technology needs, including the systems and website supporting the election."},
@@ -160,12 +217,12 @@ var DataByTab = map[string][]RundownItem{
 		{ID: 4, Date: "Sep 2026 – Present", IsIT: false, Role: "Lab Assistant – TPB 43", Event: "Dasar Teknologi Digital, ITERA", Desc: "Back as a Digital Technology Fundamentals lab assistant for TPB class 43: explaining material, guiding lab assignments, and helping with grading."},
 	},
 	"organisasi": {
-		{ID: 1, Date: "Jun 2025 – Present", IsIT: false, Role: "Member – IT Division", Event: "Badan Pengurus Angkatan (BPA) Algovista – IF 24", Desc: "Member of the Algovista IF 24 class board's IT Division, supporting the class's technology needs such as the class website."},
+		{ID: 1, Date: "Jun 2025 – Present", IsIT: true, Role: "Member – IT Division", Event: "Badan Pengurus Angkatan (BPA) Algovista – IF 24", Desc: "Member of the Algovista IF 24 class board's IT Division, supporting the class's technology needs such as the class website."},
 		{ID: 5, Date: "Sep 2025 – Dec 2025", IsIT: false, Role: "Intern Staff", Event: "Kementerian Teknologi Informasi KM ITERA (Kabinet Resonara)", Desc: "Interned at the KM ITERA Ministry of Information Technology (Resonara Cabinet), supporting the ministry's IT needs and writing the guide book for the KM website migration to Statamic."},
 		{ID: 2, Date: "Jan 2026 – Present", IsIT: true, Role: "Junior Member – Technopreneur Division", Event: "Himpunan Mahasiswa Informatika (HMIF) ITERA", Desc: "Organizing the Technopreneur Division within the Professional Development Department."},
 		{ID: 3, Date: "Jan 2026 – Present", IsIT: true, Role: "Member – Technology Implementation Division", Event: "Keluarga Mahasiswa Katholik (KMK) St. Thomas Aquinas ITERA", Desc: "Organizing the Technology Implementation Division within the Visual Communication Media Department."},
-		{ID: 6, Date: "Jun 2026 – Present", IsIT: false, Role: "Expert Staff – Ministry of Information Technology", Event: "Kementerian Koordinator Kominfo KM ITERA (Kabinet Garwasakha)", Desc: "Expert staff of the Ministry of Information Technology under the Coordinating Ministry of Communication and Informatics (Garwasakha Cabinet). I manage the km-itera.com website and work on the KM web migration program."},
-		{ID: 4, Date: "Oct 2026 – Present", IsIT: false, Role: "Adminfot – Website Division", Event: "Humas Informatika ITERA (Batch 3)", Desc: "Adminfot in the Website Division of Humas Informatika ITERA batch 3, helping manage and update the website's information content."},
+		{ID: 6, Date: "Jun 2026 – Present", IsIT: true, Role: "Expert Staff – Ministry of Information Technology", Event: "Kementerian Koordinator Kominfo KM ITERA (Kabinet Garwasakha)", Desc: "Expert staff of the Ministry of Information Technology under the Coordinating Ministry of Communication and Informatics (Garwasakha Cabinet). I manage the km-itera.com website and work on the KM web migration program."},
+		{ID: 4, Date: "Oct 2026 – Present", IsIT: true, Role: "Admin – Website Division", Event: "Humas Informatika ITERA (Batch 3)", Desc: "Admin in the Website Division of Humas Informatika ITERA batch 3, helping manage and update the website's information content."},
 	},
 	"prestasi": {
 		{ID: 1, Date: "Aug 2024", IsIT: false, Role: "Participant", Event: "Pelatihan LKMM Pra-TD I ITERA", Desc: "Took part in pre-basic student leadership and management training to develop leadership skills."},
