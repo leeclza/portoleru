@@ -1,0 +1,41 @@
+package views
+
+templ NotFound(path string) {
+	@Layout("404 — Page Not Found · Leon") {
+		<section class="relative isolate flex min-h-[min(100svh,64rem)] flex-col overflow-hidden pt-24 md:pt-28">
+			<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+				<div class="grid-bg scan absolute inset-0 overflow-hidden"></div>
+				<div class="orb -right-[10%] top-[8%] size-[min(48rem,90vw)] bg-blue/25"></div>
+				<div class="orb bottom-[-18%] left-[-12%] size-[min(36rem,80vw)] bg-violet/20 [animation-delay:-9s]"></div>
+				<div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg to-transparent"></div>
+			</div>
+			<div class="wrap flex flex-1 flex-col">
+				<div class="intro flex items-center justify-between gap-6" style={ delay(0) }>
+					<p class="label flex items-center gap-2"><span class="blink text-blue">●</span> Error — 404</p>
+					<p class="label hidden sm:block">Signal lost</p>
+				</div>
+				<div class="flex flex-1 flex-col justify-center py-14 md:py-16">
+					<h1 class="font-display text-[clamp(5rem,22vw,18rem)] font-medium leading-[0.85] tracking-[-0.06em]">
+						<span class="line"><span class="grad-text" style={ delay(0) }>404</span></span>
+					</h1>
+					<p class="intro mt-6 font-display text-[clamp(1.5rem,4vw,3rem)] font-medium tracking-tight" style={ delay(1) }>
+						Page not found<span class="text-muted">.</span>
+					</p>
+					<div class="draw mt-10 h-px w-full bg-gradient-to-r from-blue via-violet/50 to-transparent md:mt-14"></div>
+					<div class="mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:items-end">
+						<p class="intro max-w-xl text-base leading-relaxed text-muted md:col-span-6 md:text-lg" style={ delay(2) }>
+							The page <code class="break-all font-mono text-fg">{ path }</code> doesn't exist or has been moved.
+						</p>
+						<div class="intro flex flex-wrap gap-3 md:col-span-6 md:justify-end" style={ delay(3) }>
+							<a href="/" class="btn btn-primary">
+								Back to Home
+								@arrow("arrow")
+							</a>
+							<a href="/pengalaman" class="btn btn-ghost">View Experience</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	}
+}

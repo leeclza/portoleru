@@ -40,6 +40,13 @@ func Router() http.Handler {
 		w.WriteHeader(http.StatusOK)
 	})
 
+	// anything no other route matches
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(http.StatusNotFound)
+		views.NotFound(r.URL.Path).Render(r.Context(), w)
+	})
+
 	return mux
 }
 

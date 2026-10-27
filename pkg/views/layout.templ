@@ -1,6 +1,10 @@
 package views
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/leeclza/portofolio-leon/pkg/data"
+)
 
 type navItem struct {
 	ID    string
@@ -72,10 +76,6 @@ templ Navbar() {
 					</li>
 				}
 			</ul>
-			<a href="/#contact" class="hidden items-center gap-2 text-sm md:flex">
-				<span class="relative flex size-2"><span class="absolute inset-0 animate-ping rounded-full bg-blue opacity-60 motion-reduce:hidden"></span><span class="relative size-2 rounded-full bg-blue"></span></span>
-				<span class="u-link">Let's talk</span>
-			</a>
 			<button id="menu-toggle" type="button" class="burger relative z-50 -mr-2 p-2 md:hidden" aria-controls="menu-panel" aria-expanded="false" aria-label="Open menu">
 				<span></span><span></span>
 			</button>
@@ -107,6 +107,9 @@ templ SiteFooter() {
 				<div class="text-sm">
 					<p class="font-medium">Christopher Leon Saputra</p>
 					<p class="text-muted">© 2026 · All rights reserved</p>
+					if u := data.LastUpdated(); u != "" {
+						<p class="mt-1 font-mono text-xs text-muted">Recent update: { u }</p>
+					}
 				</div>
 			</div>
 			<ul class="flex flex-wrap gap-x-7 gap-y-3 text-sm text-muted">
